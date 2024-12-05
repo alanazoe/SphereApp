@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "mockingkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/danielsaidi/MockingKit.git",
+      "state" : {
+        "revision" : "bf3b0d022d5040c6980d99126373f6f9a030adca",
+        "version" : "1.4.2"
+      }
+    }
+  ],
+  "version" : 2
+}
