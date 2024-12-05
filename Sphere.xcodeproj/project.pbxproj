@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		11B138D42D025C5500656396 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 11B138D32D025C5500656396 /* Preview Assets.xcassets */; };
-		11B138D62D025C5500656396 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B138D52D025C5500656396 /* Persistence.swift */; };
 		11B138D92D025C5500656396 /* Sphere.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 11B138D72D025C5500656396 /* Sphere.xcdatamodeld */; };
 		11B138E52D025C5500656396 /* SphereTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B138E42D025C5500656396 /* SphereTests.swift */; };
 		11B138EF2D025C5500656396 /* SphereUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B138EE2D025C5500656396 /* SphereUITests.swift */; };
@@ -166,6 +165,8 @@
 		11B13A2C2D025D4B00656396 /* DrawingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B13A282D025D4B00656396 /* DrawingView.swift */; };
 		11B13A2D2D025D4B00656396 /* HotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B13A292D025D4B00656396 /* HotView.swift */; };
 		11B13A2E2D025D4B00656396 /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B13A2A2D025D4B00656396 /* MessageView.swift */; };
+		11B13A352D02639700656396 /* RichTextKit in Frameworks */ = {isa = PBXBuildFile; productRef = 11B13A342D02639700656396 /* RichTextKit */; };
+		11B13A382D02639E00656396 /* UIImageColors in Frameworks */ = {isa = PBXBuildFile; productRef = 11B13A372D02639E00656396 /* UIImageColors */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -188,7 +189,6 @@
 /* Begin PBXFileReference section */
 		11B138C92D025C5300656396 /* Sphere.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sphere.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		11B138D32D025C5500656396 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		11B138D52D025C5500656396 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		11B138D82D025C5500656396 /* Sphere.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Sphere.xcdatamodel; sourceTree = "<group>"; };
 		11B138DA2D025C5500656396 /* Sphere.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Sphere.entitlements; sourceTree = "<group>"; };
 		11B138DB2D025C5500656396 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -357,6 +357,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				11B13A382D02639E00656396 /* UIImageColors in Frameworks */,
+				11B13A352D02639700656396 /* RichTextKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -438,7 +440,6 @@
 				11B139A72D025CE400656396 /* art5.png */,
 				11B139942D025CE300656396 /* p1.jpg */,
 				11B13A252D025D1D00656396 /* Assets.xcassets */,
-				11B138D52D025C5500656396 /* Persistence.swift */,
 				11B1395D2D025CE200656396 /* a1.png */,
 				11B1395F2D025CE200656396 /* a2.jpg */,
 				11B139992D025CE400656396 /* a3.jpg */,
@@ -603,6 +604,10 @@
 			dependencies = (
 			);
 			name = Sphere;
+			packageProductDependencies = (
+				11B13A342D02639700656396 /* RichTextKit */,
+				11B13A372D02639E00656396 /* UIImageColors */,
+			);
 			productName = Sphere;
 			productReference = 11B138C92D025C5300656396 /* Sphere.app */;
 			productType = "com.apple.product-type.application";
@@ -675,6 +680,10 @@
 				Base,
 			);
 			mainGroup = 11B138C02D025C5300656396;
+			packageReferences = (
+				11B13A332D02639700656396 /* XCRemoteSwiftPackageReference "RichTextKit" */,
+				11B13A362D02639E00656396 /* XCRemoteSwiftPackageReference "UIImageColors" */,
+			);
 			productRefGroup = 11B138CA2D025C5300656396 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -861,7 +870,6 @@
 				11B13A2D2D025D4B00656396 /* HotView.swift in Sources */,
 				11B139312D025C8900656396 /* ExploreView.swift in Sources */,
 				11B139F02D025CE400656396 /* Persistence.swift in Sources */,
-				11B138D62D025C5500656396 /* Persistence.swift in Sources */,
 				11B1393C2D025C8900656396 /* ReaderNotesViews.swift in Sources */,
 				11B139272D025C8900656396 /* MarkupView.swift in Sources */,
 				11B139402D025C8900656396 /* LibraryView.swift in Sources */,
@@ -1039,6 +1047,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Sphere/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Sphere;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.books";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -1070,6 +1080,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Sphere/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Sphere;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.books";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -1204,6 +1216,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		11B13A332D02639700656396 /* XCRemoteSwiftPackageReference "RichTextKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/danielsaidi/RichTextKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.1;
+			};
+		};
+		11B13A362D02639E00656396 /* XCRemoteSwiftPackageReference "UIImageColors" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jathu/UIImageColors.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.2.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		11B13A342D02639700656396 /* RichTextKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 11B13A332D02639700656396 /* XCRemoteSwiftPackageReference "RichTextKit" */;
+			productName = RichTextKit;
+		};
+		11B13A372D02639E00656396 /* UIImageColors */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 11B13A362D02639E00656396 /* XCRemoteSwiftPackageReference "UIImageColors" */;
+			productName = UIImageColors;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		11B138D72D025C5500656396 /* Sphere.xcdatamodeld */ = {
