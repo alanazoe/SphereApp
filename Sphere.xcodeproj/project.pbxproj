@@ -350,8 +350,6 @@
 		11B13A282D025D4B00656396 /* DrawingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawingView.swift; sourceTree = "<group>"; };
 		11B13A292D025D4B00656396 /* HotView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotView.swift; sourceTree = "<group>"; };
 		11B13A2A2D025D4B00656396 /* MessageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
-		11B13A312D025D8700656396 /* RichTextKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = RichTextKit; sourceTree = "<group>"; };
-		11B13A322D025D8700656396 /* UIImageColors */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = UIImageColors; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -384,8 +382,6 @@
 			children = (
 				11B138CB2D025C5300656396 /* Sphere */,
 				11B138E32D025C5500656396 /* SphereTests */,
-				11B13A312D025D8700656396 /* RichTextKit */,
-				11B13A322D025D8700656396 /* UIImageColors */,
 				11B138ED2D025C5500656396 /* SphereUITests */,
 				11B138CA2D025C5300656396 /* Products */,
 			);
