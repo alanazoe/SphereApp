@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "1689EFD4-EDF4-45DD-8C3F-7690FD70F1B5"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "54F65A8D-5555-4931-8278-D24122D12002"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Sphere/ContentView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1221"
+            endingLineNumber = "1221"
+            landmarkName = "body"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "54F65A8D-5555-4931-8278-D24122D12002 - bfec88798d6deba8"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Sphere.iPadContentView.formatLargeNumber(Swift.Int) -&gt; Swift.String"
+                  moduleName = "Sphere"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alanagreenaway/SphereApp/Sphere/Sphere/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "1173"
+                  endingLineNumber = "1173"
+                  offsetFromSymbolStart = "228">
+               </Location>
+               <Location
+                  uuid = "54F65A8D-5555-4931-8278-D24122D12002 - d4d212372779a9f1"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Sphere.RateReviewButton.body.getter : some"
+                  moduleName = "Sphere"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alanagreenaway/SphereApp/Sphere/Sphere/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "1199"
+                  endingLineNumber = "1199"
+                  offsetFromSymbolStart = "972">
+               </Location>
+               <Location
+                  uuid = "54F65A8D-5555-4931-8278-D24122D12002 - d4d212372779a9f1"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Sphere.RateReviewButton.body.getter : some"
+                  moduleName = "Sphere"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alanagreenaway/SphereApp/Sphere/Sphere/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "1199"
+                  endingLineNumber = "1199"
+                  offsetFromSymbolStart = "1204">
+               </Location>
+               <Location
+                  uuid = "54F65A8D-5555-4931-8278-D24122D12002 - d4d212372779a77d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Sphere.RateReviewButton.body.getter : some"
+                  moduleName = "Sphere"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alanagreenaway/SphereApp/Sphere/Sphere/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "1211"
+                  endingLineNumber = "1211"
+                  offsetFromSymbolStart = "972">
+               </Location>
+               <Location
+                  uuid = "54F65A8D-5555-4931-8278-D24122D12002 - d4d212372779a77d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Sphere.RateReviewButton.body.getter : some"
+                  moduleName = "Sphere"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alanagreenaway/SphereApp/Sphere/Sphere/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "1211"
+                  endingLineNumber = "1211"
+                  offsetFromSymbolStart = "1204">
+               </Location>
+               <Location
+                  uuid = "54F65A8D-5555-4931-8278-D24122D12002 - d4d212372779a71c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Sphere.RateReviewButton.body.getter : some"
+                  moduleName = "Sphere"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alanagreenaway/SphereApp/Sphere/Sphere/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "1212"
+                  endingLineNumber = "1212"
+                  offsetFromSymbolStart = "972">
+               </Location>
+               <Location
+                  uuid = "54F65A8D-5555-4931-8278-D24122D12002 - d4d212372779a71c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Sphere.RateReviewButton.body.getter : some"
+                  moduleName = "Sphere"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alanagreenaway/SphereApp/Sphere/Sphere/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "1212"
+                  endingLineNumber = "1212"
+                  offsetFromSymbolStart = "1204">
+               </Location>
+               <Location
+                  uuid = "54F65A8D-5555-4931-8278-D24122D12002 - d4d212372779a627"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Sphere.RateReviewButton.body.getter : some"
+                  moduleName = "Sphere"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alanagreenaway/SphereApp/Sphere/Sphere/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "1221"
+                  endingLineNumber = "1221"
+                  offsetFromSymbolStart = "972">
+               </Location>
+               <Location
+                  uuid = "54F65A8D-5555-4931-8278-D24122D12002 - d4d212372779a627"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Sphere.RateReviewButton.body.getter : some"
+                  moduleName = "Sphere"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alanagreenaway/SphereApp/Sphere/Sphere/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "1221"
+                  endingLineNumber = "1221"
+                  offsetFromSymbolStart = "1204">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "15F3BFA1-0054-437E-B7B0-1AA7CA0A956D"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Sphere/ContentView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1310"
+            endingLineNumber = "1310"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>

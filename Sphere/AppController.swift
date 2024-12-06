@@ -42,7 +42,8 @@ struct AppController: View {
                 if navigation.showingLibrary() {
                     StudentLibraryView()
                 } else if navigation.showingReader() {
-                    ReaderView(book: navigation.getSelectedBook() ?? Book(), showToolbar: $showToolbar)
+                    ReadAlongView()
+                    /*ReaderView(book: navigation.getSelectedBook() ?? Book(), showToolbar: $showToolbar)*/
                 } else if navigation.showingProfile() {
                     StudentDashboard(showToolbar: $showToolbar)
                 }
@@ -73,25 +74,11 @@ struct AppController: View {
                 } else if navigation.showingExplore() {
                     ExploreView(viewModel: exploreViewModel, showToolbar: $showToolbar)
                 } else if navigation.showingReader() {
-                    ReaderView(book: navigation.getSelectedBook() ?? Book(), showToolbar: $showToolbar)
+                    AudioModeView(book: navigation.getSelectedBook() ?? Book())
+
+                   // ReaderView(book: navigation.getSelectedBook() ?? Book(), showToolbar: $showToolbar)
                 } else if navigation.showingFeed() {
                     HotView()
-                    //HotView(books: allBooks.library)
-                    //FeedView(showToolbar: $showToolbar)
-                    
-                   /* if let book = navigation.getSelectedBook(){
-                        
-                        let notes = userData.user.getNotesByBookID(bookid: book.id)
-                        
-                        if notes.count == 0 {
-                            AllUserNotesView(user: userData.user, showToolbar: $showToolbar, selectedNotes: userData.user.getNotesByBookID(bookid: book.id), selectedBook: navigation.getSelectedBook(), showRecent: false, addNewNote: true)
-                        } else {
-                            AllUserNotesView(user: userData.user, showToolbar: $showToolbar, selectedNotes: userData.user.getNotesByBookID(bookid: book.id), selectedBook: navigation.getSelectedBook(), showRecent: false)
-                        }
-                        
-                    } else {
-                        AllUserNotes(user: userData.user, showToolbar: $showToolbar)
-                    }*/
                 } else if navigation.showingProfile() {
                     MyProfileView(showToolbar: $showToolbar)
                 }
@@ -129,6 +116,7 @@ struct BlankView: View {
         }
     }
 }
+
 class NotificationCoordinator: ObservableObject {
     @Published var showPopup: Bool
     @Published var notification: any View
@@ -204,13 +192,4 @@ class NotificationCoordinator: ObservableObject {
     
 }
 
-struct BookTitleText: View {
-    var text: String
-    var size: CGFloat = 20
-    var body: some View {
-        Text(text)
-            .font(.custom("Baskerville", size: size).weight(.medium))
-            .scaleEffect(x: 1.0, y: 1.15)
-    }
-}
 

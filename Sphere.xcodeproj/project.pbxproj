@@ -167,6 +167,8 @@
 		11B13A2E2D025D4B00656396 /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B13A2A2D025D4B00656396 /* MessageView.swift */; };
 		11B13A352D02639700656396 /* RichTextKit in Frameworks */ = {isa = PBXBuildFile; productRef = 11B13A342D02639700656396 /* RichTextKit */; };
 		11B13A382D02639E00656396 /* UIImageColors in Frameworks */ = {isa = PBXBuildFile; productRef = 11B13A372D02639E00656396 /* UIImageColors */; };
+		11B13A3A2D026FC400656396 /* StyleUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B13A392D026FC400656396 /* StyleUtil.swift */; };
+		11B13A3C2D02BFC300656396 /* AudioModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B13A3B2D02BFC300656396 /* AudioModeView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -350,6 +352,8 @@
 		11B13A282D025D4B00656396 /* DrawingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawingView.swift; sourceTree = "<group>"; };
 		11B13A292D025D4B00656396 /* HotView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotView.swift; sourceTree = "<group>"; };
 		11B13A2A2D025D4B00656396 /* MessageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
+		11B13A392D026FC400656396 /* StyleUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleUtil.swift; sourceTree = "<group>"; };
+		11B13A3B2D02BFC300656396 /* AudioModeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioModeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -403,7 +407,9 @@
 			isa = PBXGroup;
 			children = (
 				11B139122D025C8900656396 /* AppController.swift */,
+				11B13A3B2D02BFC300656396 /* AudioModeView.swift */,
 				11B138FE2D025C8800656396 /* AuthorView.swift */,
+				11B13A392D026FC400656396 /* StyleUtil.swift */,
 				11B1390D2D025C8900656396 /* ContentView.swift */,
 				11B139102D025C8900656396 /* CreateView.swift */,
 				11B139182D025C8900656396 /* Discussions.swift */,
@@ -851,8 +857,10 @@
 				11B139252D025C8900656396 /* StudentUtil.swift in Sources */,
 				11B139202D025C8900656396 /* GenreView.swift in Sources */,
 				11B13A2E2D025D4B00656396 /* MessageView.swift in Sources */,
+				11B13A3C2D02BFC300656396 /* AudioModeView.swift in Sources */,
 				11B139372D025C8900656396 /* SearchView.swift in Sources */,
 				11B139212D025C8900656396 /* AuthorView.swift in Sources */,
+				11B13A3A2D026FC400656396 /* StyleUtil.swift in Sources */,
 				11B139302D025C8900656396 /* ContentView.swift in Sources */,
 				11B139392D025C8900656396 /* ProfileView.swift in Sources */,
 				11B1393F2D025C8900656396 /* WikiView.swift in Sources */,

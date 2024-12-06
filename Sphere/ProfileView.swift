@@ -1728,12 +1728,9 @@ struct MiniReviewPreview2: View {
     
             VStack(alignment: .leading){
                 
+                
                 HStack{
-                    /*Text(review.rating.book.title)
-                        .font(.custom("Georgia", size: 14.5))
-                        .bold()
-                        .lineLimit(1)
-                        .frame(width: 190, alignment: .leading)*/
+                    
                     
                     ProfileThumbnail(image: review.rating.user.photo, size: 30)
                     Text("\(review.rating.user.name)")
@@ -1742,31 +1739,34 @@ struct MiniReviewPreview2: View {
                     Text("rated")
                         .font(.system(size: 14))
                         .padding(.trailing, -4)
-
+                    
                     /*Text("\(review.rating.book.title)")
-                        .font(.custom("Georgia", size: 14))
-                        .bold()
-                        .padding(.trailing, -4)
-*/
+                     .font(.custom("Georgia", size: 14))
+                     .bold()
+                     .padding(.trailing, -4)
+                     */
                     ReviewStar(rating: review.rating.stars)
                     Spacer()
                     Text(timeSince(from: review.timestamp))
-                        .padding(.vertical, 2)
+                    //.padding(.vertical, 2)
                         .font(.system(size: 11))
                         .opacity(0.7)
+                    
                 }
                 .padding(.vertical, 8)
                 
-                Text(review.description)
-                    .font(Font(UIFont.systemFont(ofSize: 15.5, weight: UIFont.Weight(0.05))))
+                BodyText(text: review.description, size: 16)
                     .lineSpacing(4)
-                    .lineLimit(6)
+                    .lineLimit(5)
+                
                 HStack {
                     if review.likes > 0 {
+                        
                         Text("\(review.likes) likes")
                             .padding(.trailing)
                     }
                     if review.comments.count > 0 {
+                        
                         Text("\(review.comments.count) comments")
                     }
                     Spacer()
@@ -1791,11 +1791,11 @@ struct MiniReviewPreview2: View {
                                 .foregroundColor(.pink)
                         }
                     }
-
+                    
                 }
+                .padding(.top)
                 .font(.system(size: 12.5))
                 .opacity(0.7)
-                .padding(.top)
                 
             }
             .sheet(isPresented: $showBook){
@@ -1806,16 +1806,12 @@ struct MiniReviewPreview2: View {
             }
             
         }
-        .padding(25)
-        //.padding(25)
+        
         .onTapGesture {
             showReview.toggle()
         }
-        
-        .frame(width: iPadOrientation ? calculateWidth(refWidth: 720) : UIScreen.main.bounds.width * 0.95)
-        .background(RoundedRectangle(cornerRadius: 10)
-            .stroke(lightModeController.getForegroundColor().opacity(0.4), lineWidth: 0.6)
-            .fill(Color(hex: "#fffffc").opacity(0.7))
+        .padding()
+        .background(Color(hex: "#fffffc").opacity(0.7)
         )
     }
     
@@ -1883,10 +1879,11 @@ struct MiniReviewPreview3: View {
                     }
                     .padding(.vertical, 8)
                     
-                    Text(review.description)
-                        .font(.system(size: 14.5))
+                    BodyText(text: review.description, size: 15)
+                        //.font(.system(size: 14.5))
                         .lineSpacing(4)
                         .lineLimit(6)
+                    
                     HStack {
                         if review.likes > 0 {
                             Text("\(review.likes) likes")
@@ -1925,7 +1922,7 @@ struct MiniReviewPreview3: View {
                     .padding(.top)
                 }
                 //.frame(width: iPadOrientation ? calculateWidth(refWidth: 720) : UIScreen.main.bounds.width * 0.90)
-                .padding(25)
+                .padding(.horizontal, 15)
                 .background(Color(hex: "#fffef8"))
                 .overlay(VStack{
                         Divider()
@@ -2237,6 +2234,8 @@ struct MiniPostPreview2: View {
     
 }
 
+
+
 struct MiniPostPreview3: View {
     @State var post: Note
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
@@ -2246,7 +2245,7 @@ struct MiniPostPreview3: View {
     @State var showBook: Bool = false
     @Binding var showPost: Bool
     @Binding var selectedPost: Note
-
+    @State var showPoster = true
     var body: some View {
         let iPadOrientation = horizontalSizeClass != .compact
         HStack(alignment: .top) {
@@ -2255,18 +2254,18 @@ struct MiniPostPreview3: View {
                 
             
                 VStack(alignment: .leading){
-                    HStack{
-                        
-                        
-                        ProfileThumbnail(image: post.user.photo, size: 30)
-                        Text("\(post.user.name)")
-                            .font(.system(size: 14, weight: .medium))
-                            .padding(.trailing, -4)
-                       
-                        Spacer()
-                        
+                    if showPoster {
+                        HStack {
+                            ProfileThumbnail(image: post.user.photo, size: 30)
+                            Text("\(post.user.name)")
+                                .font(.system(size: 14, weight: .medium))
+                                .padding(.trailing, -4)
+                            
+                            Spacer()
+                            
+                        }
+                        .padding(.vertical, 8)
                     }
-                    .padding(.vertical, 8)
                     Text(post.title)
                         .font(.system(size: 15.5, weight: .medium))
                         .lineSpacing(4)

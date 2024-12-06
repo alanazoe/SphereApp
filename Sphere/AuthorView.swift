@@ -7,10 +7,6 @@
 
 import SwiftUI
 
-
-        
-    
-
 struct AuthorView: View {
     @Binding var author : Author
     @State var backgroundColor = Color(hex: "#FDFAEF")
@@ -50,103 +46,37 @@ struct AuthorView: View {
         ZStack {
                 ScrollView {
                     VStack {
-                        /*
-                        VStack(alignment: .center) {
-                            
-                            AuthorThumbnail(image: author.photo, size: 115)
-                                .padding(.horizontal)
-                                .padding(.top, 20)
-                                .padding(.bottom)
-
-                            
-                            Spacer()
-                            
-                            
-                        }
-                        .padding(.horizontal)
-                        .padding(.top)
-                        .padding(.top, 40)
                         
-                        
-                        
-                        
-                        HStack {
-                            VStack(alignment: .center){
-                                
-                                Text(author.name)
-                                    .font(.system(size: 17, weight: .medium))
-                                    .padding(.bottom, 4)
-                            
-                                Text(author.bio)
-                                    .font(.system(size: 14, weight: .regular))
-                                    .multilineTextAlignment(.leading)
-                                    
-
-                            }
-                            .padding(.horizontal)
-                            
-                            
-                        }
-                        .padding(.bottom)
-                        .padding(.horizontal)
-                        */
                         VStack(alignment: .leading) {
                             AuthorThumbnail(image: author.photo, size: 130)
                                 .padding(.top)
                                 .padding(.trailing, 3)
 
-
-                                /*
-                                    Image(author.photo)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit) // Changed to .fill to ensure the image covers the area
-                                        .frame(height: 80)
-                                        .clipped() // This ensures the image is clipped to the frame bounds
-                                        .cornerRadius(2) // Apply corner radius directly to the image
-                                        .shadow(radius: 0.5)
-                                        .padding(.top)
-                                        .padding(.trailing, 3)
-                                    
-                                */
-                            
                         VStack {
-                            
-                                                            
-                                        VStack(alignment: .leading) {
-
-                                                
-                                            Text(author.name)
-                                                        .font(.system(size: 16, weight: .medium))
-                                                        .padding(.top, 2)
+                                 
+                            VStack(alignment: .leading) {
+          
+                                    Text(author.name)
+                                          .font(.system(size: 16, weight: .medium))
+                                          .padding(.top, 2)
                                                     
-                                                
-                                                
-                                                Text(author.bio)
-                                                    .font(.system(size: 15))
-                                                    .lineLimit(7)
-                                                    .lineSpacing(2.5)
-                                                    .multilineTextAlignment(.leading)
-                                                    .padding(.vertical)
-                                            
-                                                
-                                           
-                                            
-                                            
+                                     Text(author.bio)
+                                           .font(.system(size: 15))
+                                           .lineLimit(7)
+                                           .lineSpacing(2.5)
+                                           .multilineTextAlignment(.leading)
+                                           .padding(.vertical)
                                             
                                         }
                                        
                                     }
-                        .padding(.top)
+                                    .padding(.top)
 
                                 }
-                        .padding(.horizontal)
-                        .padding(.top, 40)
+                                .padding(.horizontal)
+                                .padding(.top, 40)
                         
                         VStack {
-                            
-                            
-                            
-                            
                             VStack {
                                 HStack{
                                     Text("\(author.name.uppercased()) BOOKS")
@@ -159,9 +89,6 @@ struct AuthorView: View {
                               
                                 ThreeGrid(books: author.books, showBook: $showBook, selectedBook: $selectedBook, viewModel: $contentViewModel)
                                         .padding(.top)
-                                    
-                                    
-                                
                                 
                             }
                             .padding(.vertical)
@@ -223,9 +150,6 @@ struct AuthorView: View {
                             }
                             
                             
-                            
-                            
-                            
                             Spacer()
                             
                             
@@ -233,12 +157,8 @@ struct AuthorView: View {
                         .padding(.bottom, 100)
                         .background(backgroundColor)
                         
-                        
-                        
-                        
+   
                     }
-                    
-                    
                     .background(backgroundColor)
                     .sheet(isPresented: $isPresentingNotes) {
                         ActivityPreview(media: selectedBookNotes, isPresenting: $isPresentingNotes, showProfile: $showProfile, selectedProfile: $selectedProfile)

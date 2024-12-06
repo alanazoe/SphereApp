@@ -898,8 +898,8 @@ struct FormatPopup: View {
 }
 
 struct ProgressBar: View {
-    let totalPages: Int
-    let currentPage: Int
+    var totalPages: Int = 100
+    var currentPage: Int = 10
     @State var height: Double = 3
     @EnvironmentObject var lightModeController: LightModeController
 

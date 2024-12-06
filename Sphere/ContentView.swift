@@ -181,8 +181,6 @@ struct iPadContentView: View {
                                                         .clipShape(RoundedRectangle(cornerRadius: 8))
                                                         .shadow(radius: 0.5)
                                                         .padding(.top, iPadOrientation ? 20 : 0)
-                                                    //.padding(.top, isLandscape ? 90 : 20)
-                                                    
                                                         .padding(.bottom, 70)
                                                     
                                                 } else {
@@ -193,25 +191,9 @@ struct iPadContentView: View {
                                                         .clipShape(RoundedRectangle(cornerRadius: 8))
                                                         .shadow(radius: 0.5)
                                                         .padding(.top, iPadOrientation ? 20 : 0)
-                                                    
                                                         .padding(.bottom, iPadOrientation ? 70 : 30)
                                                 }
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                /*    ProgressView(value: 0.20)
-                                                 .padding(.horizontal)
-                                                 .padding(.top, 1)
-                                                 .frame(width: 100)
-                                                 .progressViewStyle(LinearProgressViewStyle(tint: .black))
-                                                 .opacity(0.7)
-                                                 .padding(.bottom, -20)
-                                                 */
-                                                
-                                                
+   
                                                 
                                                 
                                             }
@@ -477,11 +459,14 @@ struct iPadContentView: View {
                                                                     // Your additional styles here
                                                                 }
                                                             }
+                                                            .padding(.horizontal, 5)
+
+                                                            
                                                             
                                                             
                                                         }
                                                         
-                                                        
+                                                        /*
                                                         if viewModel.book.readers >= 1000 {
                                                             Divider()
                                                                 .padding(.horizontal, 2)
@@ -498,7 +483,7 @@ struct iPadContentView: View {
                                                                 Text(viewModel.formatLargeNumber(viewModel.book.readers))
                                                                 
                                                             }
-                                                        }
+                                                        }*/
                                                         
                                                         /*
                                                          
@@ -623,14 +608,67 @@ struct iPadContentView: View {
                                                     .padding(.top, 10)
                                                     .padding(.bottom)
                                                     
-                                                    HStack {
+                                                   /* HStack {
                                                         Spacer()
                                                         DiscussionButton(viewModel: viewModel, fontSize: 13.0, frameHeight: 35.0)
                                                             .cornerRadius(30)
                                                         
                                                         QuotesButton(viewModel: viewModel, fontSize: 13.0, frameHeight: 35.0)
                                                             .cornerRadius(30)
+                                                    }*/
+                                                    
+                                                    
+
+                                                   
+                                                    HStack {
+                                                        if viewModel.book.getPostCount() > 0 {
+                                                            Text("\(viewModel.book.getPostCount())")
+                                                                .font(.system(size: 16.5, weight: .medium))
+                                                                .padding(.trailing, -4)
+                                                        }
+                                                        
+                                                        Image(systemName: "message")
+                                                            .font(.system(size: 15, weight: .medium))
+
+                                                           // .padding(.trailing, -2)
+                                                        
+                                                        //Text("1.2k discussion posts")
+                                                         //   .font(.system(size: 17.5, weight: .medium))
+                                                        
+                                                     
+                                                 
                                                     }
+                                                    .onTapGesture{
+                                                        viewModel.isPresentingDiscPopup = true
+                                                    }
+                                                   
+                                                    
+                                                    if userData.user.getStatus(bookid: viewModel.book.id) == .read {
+                                                        if viewModel.book.getPostCount() > 0 {
+                                                            MiniPostPreview3(post: viewModel.book.discussion.posts[0], showPost: $viewModel.showPost, selectedPost: $viewModel.selectedPost, showPoster: false)
+                                                        }
+                                                    } else {
+                                                        VStack {
+                                                            HStack {
+                                                                Spacer()
+                                                                BodyText(text: "✧･ﾟ: *✧･ﾟ:* Spoilers Ahead *:･ﾟ✧*:･ﾟ✧", size: 14.5, weight: 0.1)
+                                                                    .padding(.bottom)
+                                                                Spacer()
+                                                                
+                                                            }
+                                                            BodyText(text: "Mark book as \"read\" or continue to discussion with spoilers", size: 14.5)
+                                                        }
+                                                        .padding(.vertical, 40)
+                                                        .padding(.horizontal, 15)
+                                                        .background(
+                                                            
+                                                            RoundedRectangle(cornerRadius: 8)
+                                                                .stroke(lightModeController.getForegroundColor().opacity(0.4), lineWidth: 0.6)
+                                                                .fill(Color(hex: "#fffffc").opacity(0.7))
+                                                            
+                                                        )
+                                                    }
+                                                        
                                                     /*
                                                      HStack(alignment:.center) {
                                                      
@@ -734,7 +772,38 @@ struct iPadContentView: View {
                                                     
                                                     VStack(alignment: .leading) {
                                                         
-                                                        
+                                                        HStack {
+                                                            ProfileThumbnail(image: userData.user.photo, size: 30)
+                                                            if let rating = userData.user.getRating(bookid: viewModel.book.id) {
+                                                                Text("You")
+                                                                    .font(.system(size: 14, weight: .medium))
+                                                                    .padding(.trailing, -4)
+                                                                Text("rated")
+                                                                    .font(.system(size: 14))
+                                                                    .padding(.trailing, -4)
+                                                                
+                                                                ReviewStar(rating: rating.stars)
+                                                            } else {
+                                                                BodyText(text: "Rate or review", size: 14)
+                                                            }
+                                                            Spacer()
+                                                                
+                                                        }
+                                                        .padding(.horizontal)
+                                                        .padding(.vertical)
+                                                        .foregroundColor(.white)
+                                                        .background(
+                                                            Color(hex: "#3A4D64")
+                                                                
+                                                        )
+                                                        .cornerRadius(7)
+                                                        .onTapGesture{
+                                                            if let rating = userData.user.getRating(bookid: viewModel.book.id) {
+                                                                viewModel.initialRating = rating.stars
+                                                            }
+                                                            viewModel.showRateView = true
+                                                        }
+                                                        /*
                                                         let reviews = viewModel.book.getAllReviews()
                                                         HStack {
                                                             
@@ -759,7 +828,7 @@ struct iPadContentView: View {
                                                             } else if reviews.count > 1 {
                                                                 Text("\(reviews.count) reviews")
                                                                     .font(.system(size: 15.5, weight: .medium))
-                                                            }*/
+                                                            }
                                                             
                                                             if !iPadOrientation {
                                                                 Spacer()
@@ -767,7 +836,7 @@ struct iPadContentView: View {
                                                                     .cornerRadius(30)
                                                                     .padding(.top, 4)
                                                                 
-                                                            }
+                                                            }*/
                                                         }
                                                         
                                                         
@@ -783,6 +852,7 @@ struct iPadContentView: View {
                                                                  } */
                                                             }
                                                         }
+                                                         */
                                                     }
                                                     
                                                     .padding(.vertical)
@@ -802,7 +872,7 @@ struct iPadContentView: View {
                                                 }
                                                 ForEach(reviews) { review in
                                                     MiniReviewPreview2(review: review)
-                                                    
+                                                    Divider()
                                                 }
                                                 
                                                 HStack{
