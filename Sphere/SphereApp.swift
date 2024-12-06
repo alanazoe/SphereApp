@@ -540,7 +540,10 @@ struct media_discussionApp: App {
                 email: "alana@example.com", // Assuming Student class has email field
                 courses: [courses.id: courses]
             )*/
+            
+            var playPauseController = PlayPauseController()
             AppController()
+                .environmentObject(playPauseController)
                 .environmentObject(notificationCoordinator)
                 .environmentObject(userData)
                 .environmentObject(lightModeController)

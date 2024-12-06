@@ -897,6 +897,102 @@ struct FormatPopup: View {
 
 }
 
+
+class PlayPauseController: ObservableObject {
+    var id: UUID
+    @Published var playing: Bool
+    @Published var book: Book
+    private var timer: Timer?
+    
+    init(playing: Bool = false, book: Book = Book()) {
+        self.id = UUID()
+        self.playing = playing
+        self.book = book
+        self.timer = nil
+    }
+    
+    func isPlaying() -> Bool {
+        return playing
+    }
+    
+    func toggle() {
+        playing.toggle()
+    }
+    
+    func getTimer() -> Timer? {
+        return timer
+    }
+    
+    func setTimer(timer: Timer?) {
+        self.timer = timer
+    }
+    
+    private func stopTimer() {
+        timer?.invalidate()
+        timer = nil
+    }
+    
+}
+
+struct AudioProgressBar: View {
+    @Binding var currentSecond: Double // Use Double for smoother scrubbing
+    @Binding var totalSeconds: Double
+    @State private var height: Double = 3
+    @EnvironmentObject var lightModeController: LightModeController
+
+    var body: some View {
+        GeometryReader { geometry in
+            VStack {
+                ZStack(alignment: .leading) {
+                    // Background track
+                    Rectangle()
+                        .foregroundColor(lightModeController.getForegroundColor().opacity(0.1))
+                        .frame(width: geometry.size.width, height: height)
+                        .cornerRadius(4)
+                    
+                    // Progress track
+                    Rectangle()
+                        .foregroundColor(lightModeController.getForegroundColor())
+                        .frame(width: calculateProgressWidth(geometry: geometry), height: height)
+                        .cornerRadius(4)
+                        .opacity(0.7)
+                    
+                    // Invisible draggable layer
+                    Rectangle()
+                        .foregroundColor(.clear)
+                        .contentShape(Rectangle())
+                    
+                }
+                .frame(height: height)
+                HStack {
+                    Text(formatSecondsToTime(currentSecond))
+                    Spacer()
+                    
+                    Text(formatSecondsToTime(totalSeconds))
+                }
+                .font(.system(size: 11))
+
+            }
+        }
+        .frame(height: height + 15)
+    }
+    
+    // Calculate the progress bar width
+    private func calculateProgressWidth(geometry: GeometryProxy) -> CGFloat {
+        let progress = currentSecond / totalSeconds
+        return CGFloat(progress) * geometry.size.width
+    }
+
+
+}
+
+func formatSecondsToTime(_ seconds: Double) -> String {
+    let totalSeconds = Int(seconds.rounded()) // Round to the nearest whole number
+    let minutes = totalSeconds / 60
+    let remainingSeconds = totalSeconds % 60
+    return String(format: "%02d:%02d", minutes, remainingSeconds)
+}
+
 struct ProgressBar: View {
     var totalPages: Int = 100
     var currentPage: Int = 10

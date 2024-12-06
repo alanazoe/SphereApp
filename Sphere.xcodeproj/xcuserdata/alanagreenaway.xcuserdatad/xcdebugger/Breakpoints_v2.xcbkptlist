@@ -173,5 +173,128 @@
             landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "EA9BBD3F-AFB8-4CA5-BEB2-476D3FE74FD6"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Sphere/EReaderView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "907"
+            endingLineNumber = "907"
+            landmarkName = "init(playing:book:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "EA9BBD3F-AFB8-4CA5-BEB2-476D3FE74FD6 - e705a7338754dbb0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "default argument 0 of Sphere.PlayPauseController.init(playing: Swift.Bool, book: Sphere.Book) -&gt; Sphere.PlayPauseController"
+                  moduleName = "Sphere"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alanagreenaway/SphereApp/Sphere/Sphere/EReaderView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "906"
+                  endingLineNumber = "906"
+                  offsetFromSymbolStart = "4">
+               </Location>
+               <Location
+                  uuid = "EA9BBD3F-AFB8-4CA5-BEB2-476D3FE74FD6 - 150172b3470829b3"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "default argument 1 of Sphere.PlayPauseController.init(playing: Swift.Bool, book: Sphere.Book) -&gt; Sphere.PlayPauseController"
+                  moduleName = "Sphere"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alanagreenaway/SphereApp/Sphere/Sphere/EReaderView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "906"
+                  endingLineNumber = "906"
+                  offsetFromSymbolStart = "160">
+               </Location>
+               <Location
+                  uuid = "EA9BBD3F-AFB8-4CA5-BEB2-476D3FE74FD6 - 9baae4a56c5f317f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Sphere.PlayPauseController.__allocating_init(playing: Swift.Bool, book: Sphere.Book) -&gt; Sphere.PlayPauseController"
+                  moduleName = "Sphere"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alanagreenaway/SphereApp/Sphere/Sphere/EReaderView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "28">
+               </Location>
+               <Location
+                  uuid = "EA9BBD3F-AFB8-4CA5-BEB2-476D3FE74FD6 - 92c5c4ff8f80e6f2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Sphere.PlayPauseController.init(playing: Swift.Bool, book: Sphere.Book) -&gt; Sphere.PlayPauseController"
+                  moduleName = "Sphere"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alanagreenaway/SphereApp/Sphere/Sphere/EReaderView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "906"
+                  endingLineNumber = "906"
+                  offsetFromSymbolStart = "148">
+               </Location>
+               <Location
+                  uuid = "EA9BBD3F-AFB8-4CA5-BEB2-476D3FE74FD6 - e705a7338754db91"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "default argument 0 of Sphere.PlayPauseController.init(playing: Swift.Bool, book: Sphere.Book) -&gt; Sphere.PlayPauseController"
+                  moduleName = "Sphere"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alanagreenaway/SphereApp/Sphere/Sphere/EReaderView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "907"
+                  endingLineNumber = "907"
+                  offsetFromSymbolStart = "4">
+               </Location>
+               <Location
+                  uuid = "EA9BBD3F-AFB8-4CA5-BEB2-476D3FE74FD6 - 150172b347082992"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "default argument 1 of Sphere.PlayPauseController.init(playing: Swift.Bool, book: Sphere.Book) -&gt; Sphere.PlayPauseController"
+                  moduleName = "Sphere"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alanagreenaway/SphereApp/Sphere/Sphere/EReaderView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "907"
+                  endingLineNumber = "907"
+                  offsetFromSymbolStart = "160">
+               </Location>
+               <Location
+                  uuid = "EA9BBD3F-AFB8-4CA5-BEB2-476D3FE74FD6 - 92c5c4ff8f80e91d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Sphere.PlayPauseController.init(playing: Swift.Bool, book: Sphere.Book) -&gt; Sphere.PlayPauseController"
+                  moduleName = "Sphere"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alanagreenaway/SphereApp/Sphere/Sphere/EReaderView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "905"
+                  endingLineNumber = "905"
+                  offsetFromSymbolStart = "184">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

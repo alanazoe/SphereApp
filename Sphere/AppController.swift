@@ -42,7 +42,6 @@ struct AppController: View {
                 if navigation.showingLibrary() {
                     StudentLibraryView()
                 } else if navigation.showingReader() {
-                    ReadAlongView()
                     /*ReaderView(book: navigation.getSelectedBook() ?? Book(), showToolbar: $showToolbar)*/
                 } else if navigation.showingProfile() {
                     StudentDashboard(showToolbar: $showToolbar)
