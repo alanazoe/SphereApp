@@ -390,9 +390,7 @@ struct LibraryView: View {
                 VStack {
                     
                     HStack {
-                        BookTitleText(text: "Sphere", size: 20)
-                            .padding(.top)
-                            .foregroundColor(lightModeController.getForegroundColor())
+                        
                        /*
                         if !lightModeController.isDarkMode(){
                             
@@ -537,7 +535,68 @@ struct LibraryView: View {
                     .padding(.top, iPadOrientation ? 8 : 0)
                     .padding(.horizontal)
                     .padding([.horizontal, .vertical], iPadOrientation ? 8 : 0)
+                    /*
+                    ScrollView(.horizontal){
+                        HStack(alignment: .center, spacing: 30) {
+                            let allLists = userData.user.lists
+                            
+                            // Static BodyText views with underline
+                            /*ZStack {
+                                // Rounded rectangle underline
+                                RoundedRectangle(cornerRadius: 9)
+                                    .fill(lightModeController.getForegroundColor()) // Adjust the color as needed
+                                    .frame(height: 6) // Height of the underline
+                                    .frame(maxWidth: .infinity)
+                                    .offset(y: 15) // Positioning below the text
+                                // BodyText for "Reading"
+                                BodyText(text: "Reading", size: 16, weight: 0.2)
+                            }
+                            
+                            BodyText(text: "To Be Read", size: 16, weight: 0.2)
+                            */
+                            
+                            StatusView(status: .current)
+                            StatusView(status: .tbr)
 
+                            // Ensure allLists contains identifiable items
+                            ForEach(allLists, id: \.id) { list in
+                                BodyText(text: list.title, size: 16, weight: 0.2)
+                            }
+                        }
+                    }
+                    .padding(.horizontal, iPadOrientation ? 5 : 0)
+                    .padding(.horizontal)
+                    .padding([.horizontal], iPadOrientation ? 8 : 0)
+                    .padding(.top)*/
+                    HStack{
+                        HStack {
+                            BodyText(text: "Library", size: 16, weight: 0.2)
+                            Image(systemName: "chevron.down")
+                                .foregroundColor(lightModeController.getForegroundColor())
+                                .font(.system(size: 15))
+                                .padding(.leading, -4)
+
+
+                        }
+                            .padding(.horizontal, 9)
+                            .padding(.vertical, 11)
+                            .background(
+                                RoundedRectangle(cornerRadius: 9)
+                                .stroke(lightModeController.getForegroundColor().opacity(0.4), lineWidth: 0.6)
+                                .fill(lightModeController.isDarkMode() ? Color(.black).opacity(0.7) : Color(hex: "#fffffc").opacity(0.7))
+                                //.shadow(color: .black.opacity(0.2), radius: 2, x: 0, y: 1)
+
+                                    
+                            )
+                        Spacer()
+                        
+                    }
+                        .padding(.horizontal, iPadOrientation ? 5 : 0)
+                        .padding(.horizontal)
+                        .padding([.horizontal], iPadOrientation ? 8 : 0)
+                        .padding(.top)
+                        
+                    
                     TabView(selection: $selectedTab) {
                         VStack {
                             HStack(alignment: .top) {

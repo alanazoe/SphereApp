@@ -661,7 +661,7 @@ struct iPadContentView: View {
                                                         .padding(.vertical, 40)
                                                         .padding(.horizontal, 15)
                                                         .background(
-                                                            
+                                    
                                                             RoundedRectangle(cornerRadius: 8)
                                                                 .stroke(lightModeController.getForegroundColor().opacity(0.4), lineWidth: 0.6)
                                                                 .fill(Color(hex: "#fffffc").opacity(0.7))
@@ -1062,16 +1062,24 @@ struct iPadContentView: View {
                                             userData.user.currentReads.moveToFront(book: viewModel.book)
                                         }) {
                                             RoundedRectangle(cornerRadius: 40)
+                                                .fill(
+                                                    RadialGradient(
+                                                        gradient: Gradient(colors: [
+                                                            Color(hex: lightModeController.isDarkMode() ? "#fffdf4" : "#4A4A48"), // Lighter center
+                                                            Color(hex: lightModeController.isDarkMode() ? "#f4f0ea" : "#1F1F1E")  // Darker edges
+                                                        ]),
+                                                        center: .center,
+                                                        startRadius: 0,
+                                                        endRadius: 100 // Adjust as needed for effect
+                                                    )
+                                                )
+                                                .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 2)
                                                 .frame(height: 38)
-                                                .foregroundColor(Color(hex: lightModeController.isDarkMode() ? "#fffdf4" : "#302f2e"))
-
                                                 .overlay(
                                                     Text("Read")
                                                         .font(.system(size: 15, weight: .medium))
                                                         .foregroundColor(lightModeController.isDarkMode() ? .black : .white)
-                                                    
                                                 )
-                                            
                                         }
                                     } else {
                                         
@@ -2492,7 +2500,7 @@ struct StatusView: View {
 
                     .background(
                         RoundedRectangle(cornerRadius: 8)
-                            .foregroundColor(Color(hex: "#f7ecf2"))
+                            .foregroundColor( Color(hex: "#f7ecf2"))
                     )
                 
             
@@ -3175,7 +3183,6 @@ struct AddToLibraryView: View {
                                 ZStack {
                                     if selectedStatus == status {
                                         Image(systemName: "checkmark.circle.fill")
-                                            .foregroundColor(.black)
                                             .frame(width: 20, height: 20)
                                             .opacity(0.8)
                                     } else {
@@ -3281,7 +3288,7 @@ struct AddToLibraryView: View {
                                 .cornerRadius(14)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 14)
-                                        .stroke(Color.black, lineWidth: 0.5)
+                                        .stroke(lightModeController.getForegroundColor(), lineWidth: 0.5)
                                         .padding(.horizontal, 2)// Thin black border
                                 )
                         }
@@ -3310,7 +3317,7 @@ struct AddToLibraryView: View {
                                 .frame(height: 150)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 14)
-                                        .stroke(Color.black, lineWidth: 0.5)
+                                        .stroke(lightModeController.getForegroundColor(), lineWidth: 0.5)
                                         .padding(.horizontal, 2)// Thin black border
                                 )
                                 .padding(.bottom, 40)
@@ -3366,7 +3373,7 @@ struct AddToLibraryView: View {
                                                 .padding(2)
                                                 .background(
                                                     RoundedRectangle(cornerRadius: 4)
-                                                        .foregroundColor(.white)
+                                                        .foregroundColor(lightModeController.getForegroundColor())
                                                 )
                                                 .offset(x: CGFloat(index * 16))
                                             
@@ -3380,18 +3387,15 @@ struct AddToLibraryView: View {
                                         HStack {
                                             Text("\(list.title)")
                                                 .font(.system(size: 15.5, weight: .medium))
-                                                .foregroundColor(.black)
                                             if list.isPrivate() {
                                                 Image(systemName: "lock.fill")
                                                     .font(.system(size: 12))
-                                                    .foregroundColor(.black)
                                                     .padding(.leading, -3)
                                             }
                                         }
                                         Spacer()
                                         Text(list.books.count == 1 ? "\(list.books.count) book" : "\(list.books.count) books")
                                             .font(.system(size: 13))
-                                            .foregroundColor(.black)
                                             .opacity(0.7)
                                     }
                                     .frame(height: 50)
@@ -3402,13 +3406,11 @@ struct AddToLibraryView: View {
                                 
                                 if addToLists[list.id] != nil  {
                                     Image(systemName: "checkmark.circle.fill")
-                                        .foregroundColor(.black)
                                         .frame(width: 20, height: 20)
                                         .opacity(0.8)
                                 } else {
                                     ZStack {
                                         Circle()
-                                            .foregroundColor(.black)
                                             .frame(width: 20, height: 20)
                                         Circle()
                                             .foregroundColor(lightModeController.getBackgroundColor())
@@ -3473,7 +3475,7 @@ struct AddToLibraryView: View {
                 selectedStatus = currStat
             }
         }
-        .foregroundColor(lightModeController.isDarkMode() ? .white : .black)
+        .foregroundColor(lightModeController.getForegroundColor())
         .background(lightModeController.getBackgroundColor())
     }
     func makeList(_ title: String, _ book: Book) {

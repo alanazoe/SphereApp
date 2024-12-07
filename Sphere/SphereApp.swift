@@ -541,7 +541,8 @@ struct media_discussionApp: App {
                 courses: [courses.id: courses]
             )*/
             
-            var playPauseController = PlayPauseController()
+            var playPauseController = PlayPauseController(audioFileName: "sampleaudio", fileType: "mp3")
+
             AppController()
                 .environmentObject(playPauseController)
                 .environmentObject(notificationCoordinator)

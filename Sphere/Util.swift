@@ -438,9 +438,9 @@ extension StatusType {
     
     var color: Color {
         switch self {
-        case .tbr: return Color(hex: "#fff8db")
-        case .current: return Color(hex: "#f7ecf2")
-        case .read: return Color(hex: "e9f7e4")
+        case .tbr: return Color(hex: "#fff9d0")
+        case .current: return Color(hex: "#dbc7e4") //Color(hex: "#f7ecf2")
+        case .read: return Color(hex: "#d1ebc7")
         }
     }
     

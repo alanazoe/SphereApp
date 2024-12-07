@@ -1056,6 +1056,7 @@ struct iPadMyProfileView: View {
                 
                     
                 }
+            .foregroundColor(lightModeController.getForegroundColor())
             }
             
         }

@@ -7,7 +7,7 @@
 
 import SwiftUI
 //import UIKit
-
+import AVFoundation
 struct ShareQuotePreview: View {
     @Binding var isPresenting: Bool
     @Binding var quote: String
@@ -899,39 +899,81 @@ struct FormatPopup: View {
 
 
 class PlayPauseController: ObservableObject {
-    var id: UUID
-    @Published var playing: Bool
-    @Published var book: Book
-    private var timer: Timer?
-    
-    init(playing: Bool = false, book: Book = Book()) {
-        self.id = UUID()
-        self.playing = playing
-        self.book = book
-        self.timer = nil
+    @Published private(set) var isPlaying: Bool = false
+    private var audioPlayer: AVAudioPlayer?
+    private var timer: Timer? = nil
+
+    init(audioFileName: String, fileType: String) {
+        let audioSession = AVAudioSession.sharedInstance()
+        do {
+            try audioSession.setCategory(.playback, mode: .default, options: [])
+            try audioSession.setActive(true)
+            
+        } catch {
+            
+        }
+
+        guard let url = Bundle.main.url(forResource: audioFileName, withExtension: "mp3") else {
+            return
+        }
+
+        do {
+            audioPlayer = try AVAudioPlayer(contentsOf: url)
+            audioPlayer?.prepareToPlay()
+            audioPlayer?.isMeteringEnabled = true  // Enable metering
+            audioPlayer?.volume = 1.0  // Ensure volume is set to maximum
+
+        } catch let error as NSError {
+            
+        }
     }
-    
-    func isPlaying() -> Bool {
-        return playing
-    }
-    
+
     func toggle() {
-        playing.toggle()
+        if isPlaying {
+            pause()
+        } else {
+            play()
+        }
     }
-    
-    func getTimer() -> Timer? {
-        return timer
+
+    func play() {
+        if !isPlaying {
+            audioPlayer?.play()
+            isPlaying = true
+        }
     }
-    
+
+    func pause() {
+        if isPlaying {
+            audioPlayer?.pause()
+            isPlaying = false
+        }
+    }
+
+    func stop() {
+        audioPlayer?.stop()
+        isPlaying = false
+        audioPlayer?.currentTime = 0
+    }
+
+    func getCurrentTime() -> Double {
+        return audioPlayer?.currentTime ?? 0
+    }
+    func setCurrentTime(currentTime: Double) {
+        audioPlayer?.currentTime = currentTime
+    }
+
+    func getTotalTime() -> Double {
+        return audioPlayer?.duration ?? 0
+    }
+
     func setTimer(timer: Timer?) {
         self.timer = timer
     }
-    
-    private func stopTimer() {
-        timer?.invalidate()
-        timer = nil
+
+    func getTimer() -> Timer? {
+        return timer
     }
-    
 }
 
 struct AudioProgressBar: View {

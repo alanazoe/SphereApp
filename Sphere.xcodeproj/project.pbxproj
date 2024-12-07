@@ -169,6 +169,7 @@
 		11B13A382D02639E00656396 /* UIImageColors in Frameworks */ = {isa = PBXBuildFile; productRef = 11B13A372D02639E00656396 /* UIImageColors */; };
 		11B13A3A2D026FC400656396 /* StyleUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B13A392D026FC400656396 /* StyleUtil.swift */; };
 		11B13A3C2D02BFC300656396 /* AudioModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B13A3B2D02BFC300656396 /* AudioModeView.swift */; };
+		11B13A3E2D03B9F200656396 /* sampleaudio.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 11B13A3D2D03B9F200656396 /* sampleaudio.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -354,6 +355,7 @@
 		11B13A2A2D025D4B00656396 /* MessageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 		11B13A392D026FC400656396 /* StyleUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleUtil.swift; sourceTree = "<group>"; };
 		11B13A3B2D02BFC300656396 /* AudioModeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioModeView.swift; sourceTree = "<group>"; };
+		11B13A3D2D03B9F200656396 /* sampleaudio.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = sampleaudio.mp3; path = ../../../Downloads/sampleaudio.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -445,6 +447,7 @@
 				11B1391C2D025C8900656396 /* WikiView.swift */,
 				11B139A72D025CE400656396 /* art5.png */,
 				11B139942D025CE300656396 /* p1.jpg */,
+				11B13A3D2D03B9F200656396 /* sampleaudio.mp3 */,
 				11B13A252D025D1D00656396 /* Assets.xcassets */,
 				11B1395D2D025CE200656396 /* a1.png */,
 				11B1395F2D025CE200656396 /* a2.jpg */,
@@ -716,6 +719,7 @@
 				11B13A1E2D025CE400656396 /* b33.jpg in Resources */,
 				11B13A0C2D025CE400656396 /* b17.jpg in Resources */,
 				11B139E22D025CE400656396 /* art1.png in Resources */,
+				11B13A3E2D03B9F200656396 /* sampleaudio.mp3 in Resources */,
 				11B13A042D025CE400656396 /* greatgatsby.txt in Resources */,
 				11B139E32D025CE400656396 /* logoo.png in Resources */,
 				11B13A0D2D025CE400656396 /* b16.jpg in Resources */,

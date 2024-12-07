@@ -10,29 +10,85 @@ import SwiftUI
 struct AudioModeView: View {
     var book: Book
     @EnvironmentObject var lightModeController: LightModeController
-    @State var barVisible = false
-    @State var currentPosition: Double = 2
-
+    @State private var barVisible = false
+    @State private var currentPosition: Double = 2
+    @State private var timer: Timer? = nil
+    @State private var barOffset = 0.0
     var body: some View {
-        VStack{
+        VStack {
             VStack {
-                
-    
-                
                 ReadAlongView(currentPosition: $currentPosition)
             }
+            .padding(.horizontal)
+            .background(lightModeController.getBackgroundColor())
             .onTapGesture {
-                barVisible.toggle()
+                toggleBarVisibility()
             }
-            if barVisible {
-                PlayPauseBar(book: book, currentPosition: $currentPosition)
-                    .transition(.move(edge: .bottom)) // Sliding effect
-                    .animation(.easeInOut, value: barVisible)
-            }
+
+            
         }
-        .padding(.horizontal)
+        .overlay(
+            VStack{
+                Spacer()
+                if barVisible {
+                    PlayPauseBar(isPresenting: $barVisible, book: book, currentPosition: $currentPosition, timer: $timer, offset: $barOffset)
+                        .offset(y: barOffset)
+                    
+                } else {
+                    HStack {
+                        Spacer()
+                        Button(action: {
+                            toggleBarVisibility()
+                        }){
+                            Circle()
+                                .frame(width: 20)
+                                .foregroundColor(lightModeController.getForegroundColor().opacity(0.8))
+                                .padding()
+                                .overlay(
+                                    Image(systemName: "triangle.fill")
+                                        .foregroundColor(lightModeController.getBackgroundColor())
+                                )
+                        }
+                    }
+                    .padding()
+                }
+            
+            }
+        )
         
-        .background(lightModeController.getBackgroundColor())
+    }
+
+    // Toggle the bar visibility and reset the timer if needed
+    private func toggleBarVisibility() {
+        if barVisible {
+            withAnimation {
+                barOffset = 150
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { // Match the animation duration
+                  barVisible.toggle()
+              }
+          } else {
+              // Show the bar
+              barVisible.toggle() // Make it visible
+              withAnimation {
+                  barOffset = 0 // Move the bar into view
+              }
+              startAutoHideTimer()
+          }
+    }
+
+    // Start a timer to auto-hide the bar after 4 seconds
+    private func startAutoHideTimer() {
+        stopAutoHideTimer() // Stop any existing timer
+        timer = Timer.scheduledTimer(withTimeInterval: 4, repeats: false) { _ in
+            toggleBarVisibility()
+        }
+    }
+
+    // Stop the timer if the user interacts again
+    private func stopAutoHideTimer() {
+        timer?.invalidate()
+        timer = nil
     }
 }
 
@@ -44,14 +100,14 @@ struct ReadAlongView: View {
     @Binding var currentPosition: Double
 
     @State var audioTextArray: [AudioText] = [
-        AudioText(lowerBound: 1, upperBound: 3, text: "We talked for a few minutes on the sunny porch."),
-        AudioText(lowerBound: 3.1, upperBound: 5, text: "\"I've got a nice place here,\" he said, his eyes flashing about restlessly."),
-        AudioText(lowerBound: 5.1, upperBound: 7, text: "Turning me around by one arm he moved a broad flat hand along the front vista, including in its sweep a sunken Italian garden, a half acre of deep pungent roses and a snub-nosed motor boat that bumped the tide off shore."),
-        AudioText(lowerBound: 7.1, upperBound: 9, text: "\"It belonged to Demaine the oil man.\" He turned me around again, politely and abruptly. \"We'll go inside.\""),
-        AudioText(lowerBound: 9.1, upperBound: 11, text: "We walked through a high hallway into a bright rosy-colored space, fragilely bound into the house by French windows at either end. The windows were ajar and gleaming white against the fresh grass outside that seemed to grow a little way into the house. A breeze blew through the room, blew curtains in at one end and out the other like pale flags, twisting them up toward the frosted wedding cake of the ceiling--and then rippled over the wine-colored rug, making a shadow on it as wind does on the sea."),
-        AudioText(lowerBound: 11.1, upperBound: 13, text: "The only completely stationary object in the room was an enormous couch on which two young women were buoyed up as though upon an anchored balloon. They were both in white and their dresses were rippling and fluttering as if they had just been blown back in after a short flight around the house. I must have stood for a few moments listening to the whip and snap of the curtains and the groan of a picture on the wall. Then there was a boom as Tom Buchanan shut the rear windows and the caught wind died out about the room and the curtains and the rugs and the two young women ballooned slowly to the floor."),
-        AudioText(lowerBound: 13.1, upperBound: 15, text: "The younger of the two was a stranger to me. She was extended full length at her end of the divan, completely motionless and with her chin raised a little as if she were balancing something on it which was quite likely to fall. If she saw me out of the corner of her eyes she gave no hint of it--indeed, I was almost surprised into murmuring an apology for having disturbed her by coming in."),
-        AudioText(lowerBound: 15.1, upperBound: 17, text: "The other girl, Daisy, made an attempt to rise--she leaned slightly forward with a conscientious expression--then she laughed, an absurd, charming little laugh, and I laughed too and came forward into the room.")
+        AudioText(lowerBound: 0, upperBound: 2, text: "We talked for a few minutes on the sunny porch."),
+        AudioText(lowerBound: 3, upperBound: 7, text: "\"I've got a nice place here,\" he said, his eyes flashing about restlessly."),
+        AudioText(lowerBound: 8, upperBound: 22, text: "Turning me around by one arm he moved a broad flat hand along the front vista, including in its sweep a sunken Italian garden, a half acre of deep pungent roses and a snub-nosed motor boat that bumped the tide off shore."),
+        AudioText(lowerBound: 22.8, upperBound: 31.1, text: "\"It belonged to Demaine the oil man.\" He turned me around again, politely and abruptly. \"We'll go inside.\""),
+        AudioText(lowerBound: 32, upperBound: 61, text: "We walked through a high hallway into a bright rosy-colored space, fragilely bound into the house by French windows at either end. The windows were ajar and gleaming white against the fresh grass outside that seemed to grow a little way into the house. A breeze blew through the room, blew curtains in at one end and out the other like pale flags, twisting them up toward the frosted wedding cake of the ceiling--and then rippled over the wine-colored rug, making a shadow on it as wind does on the sea."),
+        AudioText(lowerBound: 61.5, upperBound: 99, text: "The only completely stationary object in the room was an enormous couch on which two young women were buoyed up as though upon an anchored balloon. They were both in white and their dresses were rippling and fluttering as if they had just been blown back in after a short flight around the house. I must have stood for a few moments listening to the whip and snap of the curtains and the groan of a picture on the wall. Then there was a boom as Tom Buchanan shut the rear windows and the caught wind died out about the room and the curtains and the rugs and the two young women ballooned slowly to the floor."),
+        AudioText(lowerBound: 100, upperBound: 124, text: "The younger of the two was a stranger to me. She was extended full length at her end of the divan, completely motionless and with her chin raised a little as if she were balancing something on it which was quite likely to fall. If she saw me out of the corner of her eyes she gave no hint of it--indeed, I was almost surprised into murmuring an apology for having disturbed her by coming in."),
+        AudioText(lowerBound: 126, upperBound: 140, text: "The other girl, Daisy, made an attempt to rise--she leaned slightly forward with a conscientious expression--then she laughed, an absurd, charming little laugh, and I laughed too and came forward into the room.")
     ]
     /*[
         AudioText(lowerBound: 1, upperBound: 3, text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."),
@@ -87,10 +143,14 @@ struct ReadAlongView: View {
                 }
                 .padding(.top, 40)
                 .padding(.horizontal)
+                .padding(.bottom, 140)
                 .onChange(of: currentPosition){
+                    //var lastIndex = selectedIndex
                     selectedIndex = getSelectedIndex()
-                    withAnimation {
-                        proxy.scrollTo(selectedIndex, anchor: .center)
+                    if selectedIndex != -1 {
+                        withAnimation {
+                            proxy.scrollTo(selectedIndex, anchor: .center)
+                        }
                     }
                 }
             }
@@ -107,7 +167,7 @@ struct ReadAlongView: View {
                 return index
             }
         }
-        return 0
+        return -1
     }
 
 }
@@ -159,6 +219,8 @@ struct ReadAlongText: View {
     @Binding var currentPosition: Double
     @EnvironmentObject var lightModeController: LightModeController
     @State var currentlyReading = false
+    @EnvironmentObject var playPauseController: PlayPauseController
+    @State private var timer: Timer? = nil
 
     var body: some View {
         HStack {
@@ -181,25 +243,51 @@ struct ReadAlongText: View {
             value: currentlyReading
         )
         .onTapGesture {
-            currentPosition = audioTextObject.getStartSecond()
+            
+            playPauseController.setCurrentTime(currentTime: audioTextObject.getStartSecond())
+            if !playPauseController.isPlaying{
+                playPauseController.play()
+                startTimer()
+            }
+            currentPosition = playPauseController.getCurrentTime()
+
         }
+    }
+    private func startTimer() {
+        timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
+            currentPosition = playPauseController.getCurrentTime()
+            
+        }
+        playPauseController.setTimer(timer: timer)
     }
 }
 
 struct PlayPauseBar: View {
+    @Binding var isPresenting: Bool
     @State var book: Book
     @EnvironmentObject var lightModeController: LightModeController
     @Binding var currentPosition: Double
-    @State var totalSeconds: Double = 17
-    
+    @State var totalSeconds: Double = 140
+    @EnvironmentObject var playPauseController: PlayPauseController
+    @State private var isTouched: Bool = false
+    @Binding var timer: Timer?
+    @Binding var offset: Double
     var body: some View {
-        GeometryReader { geometry in
             
             VStack {
                 
                 VStack(alignment: .leading) {
-                    BookTitleText(text: book.title, size: 13.5)
-                    BodyText(text: book.author.name, size: 13.5)
+                    HStack(alignment: .bottom) {
+                        VStack(alignment: .leading) {
+                            BookTitleText(text: book.title, size: 13.5)
+                                
+                            BodyText(text: book.author.name, size: 13.5)
+                        }
+                        Spacer()
+                        BodyText(text: "Chapter 1", size: 13.5, weight: 0.1)
+
+                        
+                    }
                     AudioProgressBar(currentSecond: $currentPosition, totalSeconds: $totalSeconds)
                         .padding(.vertical, 7)
                     
@@ -210,7 +298,7 @@ struct PlayPauseBar: View {
                     Spacer()
                     Button(action: {
                         currentPosition = max(currentPosition - 15, 0)
-
+                        playPauseController.setCurrentTime(currentTime: currentPosition)
                     }){
                         Image(systemName: "gobackward.15")
                             .font(.system(size: 28))
@@ -218,6 +306,7 @@ struct PlayPauseBar: View {
                     PlayPauseButton(currentSecond: $currentPosition, totalSeconds: totalSeconds)
                     Button(action: {
                         currentPosition = min(currentPosition + 15, totalSeconds)
+                        playPauseController.setCurrentTime(currentTime: currentPosition)
 
                     }){
                         Image(systemName: "goforward.15")
@@ -233,24 +322,70 @@ struct PlayPauseBar: View {
             .gesture(
                 DragGesture()
                     .onChanged { value in
-                        let newSecond = calculateScrubPosition(geometry: geometry, dragLocationX: value.location.x)
+                        let newSecond = calculateScrubPosition(dragLocationX: value.location.x)
                         currentPosition = newSecond
+                        playPauseController.setCurrentTime(currentTime: currentPosition)
+                        
+                        if !isTouched {
+                            isTouched = true
+                            stopTimer()
+                        }
+                        
+                        
+                    }
+                    .onEnded { _ in
+                        isTouched = false
+                        startTimer()
                     }
             )
-        }
-        .frame(height: 110)
+            
+        
+        //.frame(height: 100)
             .padding()
             .foregroundColor(lightModeController.getForegroundColor())
-        
+            .background(lightModeController.getBackgroundColor())
+
         
 
     }
-    private func calculateScrubPosition(geometry: GeometryProxy, dragLocationX: CGFloat) -> Double {
+    private func calculateScrubPosition(dragLocationX: CGFloat) -> Double {
         // Normalize drag location to a 0-1 scale relative to the progress bar width
-        let normalizedPosition = min(max(dragLocationX / geometry.size.width, 0), 1)
+        let normalizedPosition = min(max(dragLocationX / UIScreen.main.bounds.width * 0.98, 0), 1)
         
         // Map normalized position to the total seconds
         return normalizedPosition * totalSeconds
+    }
+    
+    private func toggleBarVisibility() {
+        if isPresenting {
+            withAnimation {
+                offset = 150
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { // Match the animation duration
+                isPresenting.toggle()
+              }
+          } else {
+              // Show the bar
+              isPresenting.toggle() // Make it visible
+              withAnimation {
+                  offset = 0 // Move the bar into view
+              }
+              startTimer()
+          }
+    }
+    
+    // Start a timer to auto-hide the bar after 4 seconds
+    private func startTimer() {
+        stopTimer() // Stop any existing timer
+        timer = Timer.scheduledTimer(withTimeInterval: 4, repeats: false) { _ in
+            toggleBarVisibility()
+        }
+    }
+
+    // Stop the timer if the user interacts again
+    private func stopTimer() {
+        timer?.invalidate()
+        timer = nil
     }
 }
 
@@ -259,38 +394,36 @@ struct PlayPauseButton: View {
     @Binding var currentSecond: Double
     @EnvironmentObject var lightModeController: LightModeController
     var totalSeconds: Double
-    @State var timer: Timer? = nil
+    @State private var timer: Timer? = nil
+
     var body: some View {
         VStack {
             Button(action: {
                 playPauseController.toggle()
-                if playPauseController.isPlaying() {
+                if playPauseController.isPlaying {
                     startTimer()
                 } else {
                     stopTimer()
                 }
             }) {
-                Image(systemName: playPauseController.isPlaying() ? "pause.fill" : "play.fill")
+                Image(systemName: playPauseController.isPlaying ? "pause.fill" : "play.fill")
             }
         }
         .font(.system(size: 38))
         .foregroundColor(lightModeController.getButtonColor())
-        
     }
 
     private func startTimer() {
-        
-        timer = Timer.scheduledTimer(withTimeInterval: 0.001, repeats: true) { _ in
-            if currentSecond < totalSeconds {
-                currentSecond += 0.001
-            }
+        stopTimer() // Ensure no duplicate timers are running
+        timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
+            currentSecond = playPauseController.getCurrentTime()
         }
         playPauseController.setTimer(timer: timer)
     }
 
     private func stopTimer() {
-        timer = playPauseController.getTimer()
         timer?.invalidate()
         timer = nil
+        playPauseController.setTimer(timer: nil)
     }
 }
