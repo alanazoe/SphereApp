@@ -7,8 +7,114 @@
 
 import SwiftUI
 
+struct EBookView: View {
+    var book: Book
+
+    @State var audioView: Bool = false
+    var body: some View {
+        if audioView {
+            AudioModeView(book: book, audioView: $audioView)
+        } else {
+            ReadModeView(book: book, audioView: $audioView)
+        }
+    }
+}
+
+struct ReadModeView: View {
+    var book: Book
+    @EnvironmentObject var lightModeController: LightModeController
+    @State private var barVisible = false
+    @State private var currentPosition: Double = 2
+    @State private var timer: Timer? = nil
+    @State private var barOffset = 0.0
+    @Binding var audioView: Bool
+    var body: some View {
+        VStack {
+            VStack {
+                ReadAlongView(currentPosition: $currentPosition, audioView: false)
+            }
+            .padding(.horizontal)
+            .background(lightModeController.getBackgroundColor())
+            .onTapGesture {
+                toggleBarVisibility()
+            }
+
+            
+        }
+        .overlay(
+            VStack{
+                Spacer()
+                if barVisible {
+                    ReadBar(isPresenting: $barVisible, book: book, currentPosition: $currentPosition, timer: $timer, offset: $barOffset, audioView: $audioView)
+                        .offset(y: barOffset)
+                    
+                } else {
+                    HStack {
+                        Spacer()
+                        Button(action: {
+                            toggleBarVisibility()
+                        }){
+                            
+                            Image(systemName: "chevron.up")
+                                .foregroundColor(lightModeController.getBackgroundColor())
+                                .font(.system(size: 16, weight: .bold))
+                                .padding()
+                                .padding(6)
+
+                                .background(
+                                    Circle()
+                                        .frame(width: 20)
+                                        .foregroundColor(lightModeController.getForegroundColor().opacity(0.8))
+                                )
+                            
+                                
+                        }
+                    }
+                    .padding()
+                }
+            
+            }
+        )
+        
+    }
+
+    // Toggle the bar visibility and reset the timer if needed
+    private func toggleBarVisibility() {
+        if barVisible {
+            withAnimation {
+                barOffset = 150
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { // Match the animation duration
+                  barVisible.toggle()
+              }
+          } else {
+              // Show the bar
+              barVisible.toggle() // Make it visible
+              withAnimation {
+                  barOffset = 0 // Move the bar into view
+              }
+              startAutoHideTimer()
+          }
+    }
+
+    // Start a timer to auto-hide the bar after 4 seconds
+    private func startAutoHideTimer() {
+        stopAutoHideTimer() // Stop any existing timer
+        timer = Timer.scheduledTimer(withTimeInterval: 4, repeats: false) { _ in
+            toggleBarVisibility()
+        }
+    }
+
+    // Stop the timer if the user interacts again
+    private func stopAutoHideTimer() {
+        timer?.invalidate()
+        timer = nil
+    }
+}
+
 struct AudioModeView: View {
     var book: Book
+    @Binding var audioView: Bool
     @EnvironmentObject var lightModeController: LightModeController
     @State private var barVisible = false
     @State private var currentPosition: Double = 2
@@ -31,8 +137,9 @@ struct AudioModeView: View {
             VStack{
                 Spacer()
                 if barVisible {
-                    PlayPauseBar(isPresenting: $barVisible, book: book, currentPosition: $currentPosition, timer: $timer, offset: $barOffset)
+                    PlayPauseBar(isPresenting: $barVisible, book: book, currentPosition: $currentPosition, timer: $timer, offset: $barOffset, audioView: $audioView)
                         .offset(y: barOffset)
+                        
                     
                 } else {
                     HStack {
@@ -40,14 +147,20 @@ struct AudioModeView: View {
                         Button(action: {
                             toggleBarVisibility()
                         }){
-                            Circle()
-                                .frame(width: 20)
-                                .foregroundColor(lightModeController.getForegroundColor().opacity(0.8))
+                            
+                            Image(systemName: "chevron.up")
+                                .foregroundColor(lightModeController.getBackgroundColor())
+                                .font(.system(size: 16, weight: .bold))
                                 .padding()
-                                .overlay(
-                                    Image(systemName: "triangle.fill")
-                                        .foregroundColor(lightModeController.getBackgroundColor())
+                                .padding(6)
+
+                                .background(
+                                    Circle()
+                                        .frame(width: 20)
+                                        .foregroundColor(lightModeController.getForegroundColor().opacity(0.8))
                                 )
+                            
+                                
                         }
                     }
                     .padding()
@@ -98,7 +211,7 @@ struct ReadAlongView: View {
     
     @State var textArray: [String] = []
     @Binding var currentPosition: Double
-
+    var audioView = true
     @State var audioTextArray: [AudioText] = [
         AudioText(lowerBound: 0, upperBound: 2, text: "We talked for a few minutes on the sunny porch."),
         AudioText(lowerBound: 3, upperBound: 7, text: "\"I've got a nice place here,\" he said, his eyes flashing about restlessly."),
@@ -129,14 +242,14 @@ struct ReadAlongView: View {
         ScrollViewReader { proxy in
             
             ScrollView {
-                VStack(alignment: .leading, spacing: 60) {
+                VStack(alignment: .leading, spacing: 50) {
                     ForEach(Array(audioTextArray.enumerated()), id: \.element) { index, audioTextObject in
-                        ReadAlongText(
-                            text: audioTextObject.text,
-                            audioTextObject: audioTextObject,
-                            currentPosition: $currentPosition
-                        )
-                        .id(index)
+                            ReadAlongText(
+                                text: audioTextObject.text,
+                                audioTextObject: audioTextObject,
+                                currentPosition: $currentPosition, audioView: audioView
+                            )
+                            .id(index)
                         
                         
                     }
@@ -221,14 +334,14 @@ struct ReadAlongText: View {
     @State var currentlyReading = false
     @EnvironmentObject var playPauseController: PlayPauseController
     @State private var timer: Timer? = nil
-
+    var audioView: Bool
     var body: some View {
         HStack {
             Text(text)
-                .font(.custom("Georgia", size: size).weight(.regular))
+                .font(.custom("Georgia", size: audioView ? size : size - 2).weight(.regular))
                 .scaleEffect(x: 1.0, y: 1.0)
                 .lineSpacing(6)
-                .foregroundColor(currentlyReading ? lightModeController.getForegroundColor() : lightModeController.getForegroundColor().opacity(0.5))
+                .foregroundColor(currentlyReading || !audioView ? lightModeController.getForegroundColor() : lightModeController.getForegroundColor().opacity(0.5))
                 .onAppear {
                     currentlyReading = audioTextObject.isCurrentlyReading(currentSecond: currentPosition)
                 }
@@ -236,8 +349,8 @@ struct ReadAlongText: View {
                     currentlyReading = audioTextObject.isCurrentlyReading(currentSecond: currentPosition)
                 }
         }
-        .scaleEffect(x: !currentlyReading ? 0.92 : 1.0, y: !currentlyReading ? 0.92 : 1.0)
-        .offset(x: !currentlyReading ? -14 : 0)
+        .scaleEffect(x: !currentlyReading && audioView ? 0.92 : 1.0, y: !currentlyReading && audioView ? 0.92 : 1.0)
+        .offset(x: !currentlyReading && audioView ? -14 : 0)
         .animation(
             .easeInOut(duration: 0.3), // Customize duration here
             value: currentlyReading
@@ -272,6 +385,7 @@ struct PlayPauseBar: View {
     @State private var isTouched: Bool = false
     @Binding var timer: Timer?
     @Binding var offset: Double
+    @Binding var audioView: Bool
     var body: some View {
             
             VStack {
@@ -313,6 +427,14 @@ struct PlayPauseBar: View {
                             .font(.system(size: 28))
                     }
                     
+                    Button(action: {
+                        withAnimation {
+                            audioView.toggle()
+                        }
+                        
+                    }){
+                        Text("Mode")
+                    }
                     Spacer()
                     
                 }
@@ -340,6 +462,111 @@ struct PlayPauseBar: View {
             )
             
         
+        //.frame(height: 100)
+            .padding()
+            .foregroundColor(lightModeController.getForegroundColor())
+            .background(lightModeController.getBackgroundColor())
+
+        
+
+    }
+    private func calculateScrubPosition(dragLocationX: CGFloat) -> Double {
+        // Normalize drag location to a 0-1 scale relative to the progress bar width
+        let normalizedPosition = min(max(dragLocationX / UIScreen.main.bounds.width * 0.98, 0), 1)
+        
+        // Map normalized position to the total seconds
+        return normalizedPosition * totalSeconds
+    }
+    
+    private func toggleBarVisibility() {
+        if isPresenting {
+            withAnimation {
+                offset = 150
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { // Match the animation duration
+                isPresenting.toggle()
+              }
+          } else {
+              // Show the bar
+              isPresenting.toggle() // Make it visible
+              withAnimation {
+                  offset = 0 // Move the bar into view
+              }
+              startTimer()
+          }
+    }
+    
+    // Start a timer to auto-hide the bar after 4 seconds
+    private func startTimer() {
+        stopTimer() // Stop any existing timer
+        timer = Timer.scheduledTimer(withTimeInterval: 4, repeats: false) { _ in
+            toggleBarVisibility()
+        }
+    }
+
+    // Stop the timer if the user interacts again
+    private func stopTimer() {
+        timer?.invalidate()
+        timer = nil
+    }
+}
+
+struct ReadBar: View {
+    @Binding var isPresenting: Bool
+    @State var book: Book
+    @EnvironmentObject var lightModeController: LightModeController
+    @Binding var currentPosition: Double
+    @State var totalSeconds: Double = 140
+    @EnvironmentObject var playPauseController: PlayPauseController
+    @State private var isTouched: Bool = false
+    @Binding var timer: Timer?
+    @Binding var offset: Double
+    @Binding var audioView: Bool
+    var body: some View {
+            
+            VStack {
+                
+                VStack(alignment: .leading) {
+                    HStack(alignment: .bottom) {
+                        VStack(alignment: .leading) {
+                            BookTitleText(text: book.title, size: 16.5)
+                                
+                            BodyText(text: book.author.name, size: 15.5)
+                        }
+                        Spacer()
+                        //BodyText(text: "Chapter 1", size: 13.5, weight: 0.1)
+                        Button(action: {
+                            withAnimation{
+                                audioView.toggle()
+                            }
+                            
+                        }){
+                            Image(systemName: "play.fill")
+                                .font(.system(size: 20))
+                                .padding(.horizontal)
+                                .padding()
+                                .foregroundColor(lightModeController.getBackgroundColor())
+
+                                .background(
+                                    Circle()
+                                        .foregroundColor(lightModeController.getForegroundColor())
+
+
+                                
+                                )
+                                
+                            
+                        }
+                        
+                    }
+    
+                    
+                    // .background(lightModeController.getButtonColor())
+                    
+                }
+               
+            }
+
         //.frame(height: 100)
             .padding()
             .foregroundColor(lightModeController.getForegroundColor())

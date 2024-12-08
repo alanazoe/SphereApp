@@ -569,25 +569,32 @@ struct LibraryView: View {
                     .padding([.horizontal], iPadOrientation ? 8 : 0)
                     .padding(.top)*/
                     HStack{
-                        HStack {
-                            BodyText(text: "Library", size: 16, weight: 0.2)
-                            Image(systemName: "chevron.down")
-                                .foregroundColor(lightModeController.getForegroundColor())
-                                .font(.system(size: 15))
-                                .padding(.leading, -4)
-
-
-                        }
+                        
+                        Button(action: {
+                            showLists.toggle()
+                        }){
+                            HStack {
+                                BodyText(text: "Library", size: 16, weight: 0.2)
+                                    .foregroundColor(lightModeController.getForegroundColor())
+                                
+                                Image(systemName: "chevron.down")
+                                    .foregroundColor(lightModeController.getForegroundColor())
+                                    .font(.system(size: 15))
+                                    .padding(.leading, -4)
+                                
+                                
+                            }
                             .padding(.horizontal, 9)
                             .padding(.vertical, 11)
                             .background(
                                 RoundedRectangle(cornerRadius: 9)
-                                .stroke(lightModeController.getForegroundColor().opacity(0.4), lineWidth: 0.6)
-                                .fill(lightModeController.isDarkMode() ? Color(.black).opacity(0.7) : Color(hex: "#fffffc").opacity(0.7))
+                                    .stroke(lightModeController.getForegroundColor().opacity(0.4), lineWidth: 0.6)
+                                    .fill(lightModeController.isDarkMode() ? lightModeController.getForegroundColor().opacity(0.05) : Color(hex: "#fffffc").opacity(0.7))
                                 //.shadow(color: .black.opacity(0.2), radius: 2, x: 0, y: 1)
-
-                                    
+                                
+                                
                             )
+                        }
                         Spacer()
                         
                     }
@@ -620,7 +627,7 @@ struct LibraryView: View {
                                 .padding(.leading, 5)
                                 .padding(.leading)
                                 .frame(width: UIScreen.main.bounds.width * 0.2)*/
-                                if showLists {
+                                /*if showLists {
                                     ScrollView{
                                         HStack{
                                             Text("Lists")
@@ -634,7 +641,9 @@ struct LibraryView: View {
                                             .padding(.horizontal, UIScreen.main.bounds.width * 0.05)
                                     }
                                     
-                                } else if caroView {
+                                } else */
+                                
+                                if caroView {
                                     CarouselView(longPress: $longPress, selectedBook: $selectedBook, showBook: $showBook, iPadOrientation: true)
                                         .padding(.horizontal, UIScreen.main.bounds.width * 0.05)
                                 } else if !isLandscape {
@@ -681,10 +690,17 @@ struct LibraryView: View {
                 .sheet(isPresented: $addBook) {
                     AddBookToLibraryView(isPresenting: $addBook)
                 }
-                /*
+                
                 .sheet(isPresented: $showLists) {
-                    AllLists(isPresenting: $showLists, user: userData.user)
-                }*/
+                    ScrollView {
+                        AllLists(showList: $showList, selectedList: $selectedList, inProfile: true)
+                    }
+                    .scrollIndicators(.hidden)
+                    .presentationDetents([.fraction(0.8)])
+
+                    
+                }
+
                 .sheet(isPresented: $showMessages){
                     ConvosView()
 

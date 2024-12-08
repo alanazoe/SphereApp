@@ -73,7 +73,7 @@ struct AppController: View {
                 } else if navigation.showingExplore() {
                     ExploreView(viewModel: exploreViewModel, showToolbar: $showToolbar)
                 } else if navigation.showingReader() {
-                    AudioModeView(book: navigation.getSelectedBook() ?? Book())
+                    EBookView(book: navigation.getSelectedBook() ?? Book())
 
                    // ReaderView(book: navigation.getSelectedBook() ?? Book(), showToolbar: $showToolbar)
                 } else if navigation.showingFeed() {

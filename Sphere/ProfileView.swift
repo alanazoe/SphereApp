@@ -2441,7 +2441,7 @@ struct AllLists: View {
     @Binding var selectedList: List
     @EnvironmentObject var lightModeController: LightModeController
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
-
+    var inProfile: Bool = false
     var body: some View {
         let iPadOrientation = horizontalSizeClass != .compact
         let allLists = userData.user.getAllLists()
@@ -2449,14 +2449,19 @@ struct AllLists: View {
         ZStack {
             VStack {
                 HStack{
-                    VStack(alignment: .leading) {
-                        Text("Lists")
-                            .font(.system(size: 18, weight: .medium))
-                        Text("\(userData.user.lists.count) lists")
-                            .font(.system(size: 12))
-                            .opacity(0.7)
-                        
-                        
+                    if inProfile {
+                        BodyText(text: "Your Books", size: 20, weight: 0.1)
+                            .padding()
+                    } else {
+                        VStack(alignment: .leading) {
+                            Text("Lists")
+                                .font(.system(size: 18, weight: .medium))
+                            Text("\(userData.user.lists.count) lists")
+                                .font(.system(size: 12))
+                                .opacity(0.7)
+                            
+                            
+                        }
                     }
                     
                     Spacer()
