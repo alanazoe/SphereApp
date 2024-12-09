@@ -25,7 +25,8 @@ struct AppController: View {
     @EnvironmentObject var allBooks: Library
     @State var showAddToListPopup: Bool = false
     @EnvironmentObject var notificationCoordinator: NotificationCoordinator
-    
+    @State var showSidebar = false
+
 /*
     @StateObject var libraryViewModel = LibraryViewModel()
     @StateObject var exploreViewModel = ExploreViewModel()
@@ -66,9 +67,12 @@ struct AppController: View {
             ZStack {
                 
                 if navigation.showingLibrary() {
-                    LibraryView(showToolbar: $showToolbar)
+                    LibraryView(showToolbar: $showToolbar, showSidebar: $showSidebar)
                         .onAppear {
                             showToolbar = true
+                        }
+                        .onDisappear{
+                            showSidebar = false
                         }
                 } else if navigation.showingExplore() {
                     ExploreView(viewModel: exploreViewModel, showToolbar: $showToolbar)
@@ -90,6 +94,10 @@ struct AppController: View {
                               
                         }
                         ToolbarView()
+                            .offset(x: showSidebar ? -UIScreen.main.bounds.width * 0.82 : 0)
+                            .animation(.easeInOut(duration: 0.3), value: showSidebar) // Smooth animation
+                            .shadow(radius: 8)
+
                     }
                 } else if showToolbar && horizontalSizeClass != .compact && !navigation.showingReader() {
                     VStack(){

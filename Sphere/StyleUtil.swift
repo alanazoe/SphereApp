@@ -11,12 +11,12 @@ struct BookTitleText: View {
     var text: String
     var size: CGFloat = 20
     @EnvironmentObject var lightModeController: LightModeController
-
+    var foregroundColor: Color? = nil
     var body: some View {
         Text(text)
             .font(.custom("Baskerville", size: size).weight(.medium))
             .scaleEffect(x: 1.0, y: 1.15)
-            .foregroundColor(lightModeController.getForegroundColor())
+            .foregroundColor(foregroundColor != nil ? foregroundColor : lightModeController.getForegroundColor())
     }
 }
 

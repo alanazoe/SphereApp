@@ -952,6 +952,106 @@ struct SearchSelectBooksBar: View {
     }
 }
 
+struct GenericSearchBar: View {
+    @Binding var searchText : String
+    @Binding  var searched : Bool
+    @State var placeholder: String
+    @State var isTextFieldFocused = false
+    @EnvironmentObject var allBooks : Library
+    @State var backgroundColor = Color(hex: "#FDFAEF")
+    @State var isGenre = false
+    @EnvironmentObject var lightModeController: LightModeController
+    @EnvironmentObject var navigation: Nav
+
+    var body: some View {
+        
+        
+        VStack {
+            HStack {
+                TextField(placeholder, text: $searchText)
+                    .onTapGesture {
+                        // When the TextField is tapped, set isTextFieldFocused to true
+                        isTextFieldFocused = true
+                    }
+                    .font(.system(size: 16.5))
+                    .foregroundColor(lightModeController.getForegroundColor())
+            
+                    .padding(10)
+                    .padding(.vertical, 2)
+                    .padding(.leading, 30)
+                    .onSubmit {
+                        searched = true
+                        isTextFieldFocused = false
+                    }
+                    .onChange(of: searchText){
+                        searched = false
+                        isGenre = false
+                        
+                    }
+                    .overlay(
+                        HStack {
+                            Image(systemName: "magnifyingglass")
+                                .foregroundColor(lightModeController.getForegroundColor())
+                                .padding(.leading, 10)
+                            Spacer()
+                        }
+                    )
+                    .background(lightModeController.getForegroundColor().opacity(0.05))
+                    .cornerRadius(40)
+                    //.padding(3)
+                    //.padding(searchText != "" ? .leading : .horizontal)
+
+                
+                if searchText != "" || isTextFieldFocused {
+                    Button("Cancel") {
+                        // Close keyboard
+                        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                        // Empty search text
+                        searchText = ""
+                        isTextFieldFocused = false
+
+                    }
+                    .foregroundColor(lightModeController.getForegroundColor())
+                    .font(.system(size: 14))
+                    //.padding(.trailing)
+                    
+                }
+            }
+           
+            .onAppear{
+                navigation.hideToolbar()
+
+            }
+            .onDisappear{
+                navigation.showToolbarTrue()
+
+            }
+            
+            
+            /*  if searchText == "" && isTextFieldFocused {
+                VStack {
+                    //SEARCH SUGGESTIONS
+                    Spacer()
+                }
+                .background(backgroundColor)
+               
+                
+            }
+            if searchText != "" && !isGenre  {
+                
+                //SEARCH RESULTS
+                
+            }
+            
+    
+            */
+        
+            
+    }
+        
+    }
+}
+
 
 struct SearchBar2: View {
     @Binding var searchText : String
@@ -1048,6 +1148,7 @@ struct SearchBar2: View {
         
             
     }
+        
     }
 }
 
@@ -1268,6 +1369,117 @@ struct ListSearchSuggestions: View {
 }
 
 
+struct ListSearchResults2: View {
+    @Binding var searchText : String// Consider this as user input that changes
+    @State var books: [Book] // Your books array
+    @Binding var showBook: Bool
+    @Binding var selectedBook: Book
+    @Binding var searched : Bool
+    @State var backgroundColor = Color(hex: "#FDFAEF")
+    @EnvironmentObject var lightModeController: LightModeController
+
+    private var filteredBooks: [Book] {
+        if searchText.isEmpty {
+            return books
+        } else {
+            return books.filter { book in
+                book.title.localizedCaseInsensitiveContains(searchText) || book.author.name.localizedCaseInsensitiveContains(searchText)
+            }
+        }
+    }
+
+    var body: some View {
+
+        ScrollView {
+            
+            if filteredBooks.count < 1 {
+                
+                Text("no results for \(searchText)")
+                    .font(.system(size: 15))
+                    .foregroundColor(.black)
+                    .padding(.top, 2)
+                    .padding(.bottom)
+                
+            }
+            HStack(alignment: .top) {
+                
+                LazyVStack(alignment: .leading, spacing: 20) {
+                    
+                    ForEach(Array(filteredBooks.enumerated()), id: \.offset) { index, m in
+                            HStack {
+                                
+                                Image(m.cover)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 40)
+                                    .clipped()
+                                    .cornerRadius(3)
+                                
+                                VStack(alignment: .leading) {
+                                    
+                                    BookTitleText(text: m.title, size: 16)
+                                    BodyText(text: "\(m.author.name)", size: 15)
+                                        
+                                    
+                                }
+                                .padding(.leading, 4)
+                                Spacer()
+                                Image(systemName: "ellipsis")
+                                
+                            }
+                            .padding(.vertical, 1)
+                            .onTapGesture {
+                                showBook.toggle()
+                                selectedBook = m
+                            }
+                        
+                    }
+                }
+                .padding(.top, 12)
+            }
+            .padding(.horizontal)
+        }
+        
+        .background(lightModeController.getBackgroundColor())
+        .foregroundColor(lightModeController.getForegroundColor())
+
+    }
+}
+
+struct MiniBookPreview2: View {
+    @State var book: Book
+    @Binding var showBook: Bool
+    @Binding var selectedBook: Book
+    
+    var body: some View {
+        HStack {
+            
+            Image(book.cover)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 40)
+                .clipped()
+                .cornerRadius(3)
+            
+            VStack(alignment: .leading) {
+                
+                BookTitleText(text: book.title, size: 16)
+                BodyText(text: "\(book.author.name)", size: 15)
+                    
+                
+            }
+            .padding(.leading, 4)
+            Spacer()
+            Image(systemName: "ellipsis")
+            
+        }
+        .padding(.vertical, 1)
+        .onTapGesture {
+            showBook.toggle()
+            selectedBook = book
+        }
+    }
+}
 
 struct ListSearchResults: View {
     @Binding var searchText : String// Consider this as user input that changes

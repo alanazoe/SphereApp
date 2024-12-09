@@ -341,7 +341,190 @@ class LightModeController: ObservableObject {
         return buttonColor
     }
 }
+struct LibrarySearchView: View {
+    @Binding var isPresenting: Bool
+    @EnvironmentObject var lightModeController: LightModeController
+    @State var searched = false
+    @State var searchText = ""
+    @EnvironmentObject var userData: UserData
+    @State var showBook = false
+    @State var selectedBook = Book()
 
+    var body: some View {
+        ZStack{
+            VStack{
+                HStack {
+                    Image(systemName: "chevron.left")
+                        .onTapGesture {
+                            isPresenting.toggle()
+                        }
+                    GenericSearchBar(searchText: $searchText, searched: $searched, placeholder: "What do you want to read?")
+                }
+                .padding(.horizontal)
+                
+                
+                
+                if searchText != ""  {
+                    
+                    ListSearchResults2(searchText: $searchText, books: userData.user.getAllBooks(), showBook: $showBook, selectedBook: $selectedBook, searched: $searched)
+                    
+                } else {
+                    Spacer()
+                    BookTitleText(text: "Find your next favorite book")
+                        .padding(.bottom, 3)
+                    
+                    BodyText(text: "Search for authors, books, lists, or genres.", size: 15, weight: 0.2)
+                        .padding(.bottom)
+                    
+                    
+                    
+                    
+                    Spacer()
+                }
+            }
+            
+            if showBook {
+                ContentView(book: $selectedBook, isPresenting: $showBook, showToolbar: .constant(true))
+            }
+            
+        }
+        .background(lightModeController.getBackgroundColor())
+        .foregroundColor(lightModeController.getForegroundColor())
+    }
+}
+struct LibrarySidebar: View {
+    @Binding var isPresenting: Bool
+    @EnvironmentObject var userData: UserData
+    @EnvironmentObject var lightModeController: LightModeController
+    var body: some View {
+        ScrollView {
+            VStack{
+                HStack {
+                    Spacer()
+                    Button(action: {
+                        isPresenting.toggle()
+                    }){
+                        Image(systemName: "xmark")
+                            .font(.system(size: 14))
+                            .padding()
+                    }
+                    
+                }
+                VStack {
+                    /*
+                    VStack {
+                        ProfileThumbnail(image: userData.user.photo, size: 110)
+                        
+                        Text(userData.user.handle)
+                            .font(.system(size: 20, weight: .medium))
+                            .padding(.vertical)
+                    }
+                    .padding(.vertical)
+                    .padding(.top, 40)*/
+                    /*
+                     HStack(spacing: 40) {
+                     HeadingSubheadingText(headingNumber: userData.user.getAllBooks().count, subheading: "BOOKS")
+                     HeadingSubheadingText(headingNumber: 5, subheading: "ACHIEVEMENTS")
+                     }
+                     .padding(.top)
+                     */
+                    HStack {
+                        BodyText(text: "Monthly Reading Goal", size: 14, weight: 0.2)
+                        Spacer()
+                    }
+
+                    ReadingChallenge()
+                    Spacer()
+                    //BodyText(text: "Your account", size: 14)
+                    VStack(alignment: .leading){
+                        
+
+                        VStack(alignment: .leading, spacing: 20){
+                           // BodyText(text: "Your activity", size: 14, weight: 0.2)
+                             //   .opacity(0.7)
+                            SidebarButton(systemImageName: "star", text: "Ratings & Reviews")
+                                                        
+                            Divider()
+                            SidebarButton(systemImageName: "square.and.pencil", text: "Posts")
+                            
+                            Divider()
+                            SidebarButton(systemImageName: "quote.opening",text: "Quotes")
+                            
+                            Divider()
+                            
+                            SidebarButton(systemImageName: "bookmark", text: "Saved")
+                            
+                            Divider()
+
+                            SidebarButton(systemImageName: "message",text: "Comments")
+                            
+                            SidebarButton(systemImageName: "gear",text: "Settings")
+                            
+                            Divider()
+                        }
+                            .padding(.top)
+                            .padding(.top)
+
+                            VStack(alignment: .leading, spacing: 20){
+
+                               
+                                
+                                
+                            }
+                        
+
+                    }
+                    
+                }
+                .padding(.top, 30)
+                
+                
+            }
+        }
+        .padding()
+        .foregroundColor(lightModeController.getForegroundColor())
+        .background(lightModeController.getBackgroundColor())
+        .frame(width: UIScreen.main.bounds.width * 0.82)
+        
+    }
+}
+
+struct SidebarButton: View {
+    var systemImageName: String
+    var text: String
+    var body: some View {
+        HStack {
+            Image(systemName: systemImageName)
+                .font(.system(size: 15.5, weight: .medium))
+            
+            BodyText(text: text, size: 17)
+                .padding(.leading, 3)
+            
+            Spacer()
+            
+            Image(systemName: "chevron.right")
+                .opacity(0.5)
+                .font(.system(size: 13))
+        }
+    }
+}
+
+struct HeadingSubheadingText: View {
+    var headingNumber: Int
+    var subheading: String
+    var body: some View {
+        VStack {
+            BodyText(text: formatLargeNumber(headingNumber), size: 20)
+            BodyText(text: subheading, size: 10.5)
+                .multilineTextAlignment(.center)
+                .opacity(0.5)
+                .padding(.bottom, 2)
+                
+            
+            
+        }
+    }
+}
 struct LibraryView: View {
     @State private var showPopover = false
     @State private var isPresentingProfilePopup = false
@@ -381,12 +564,23 @@ struct LibraryView: View {
 
     @State var contentOffset = UIScreen.main.bounds.width
     @State var showingBook = false
-    
+    @Binding var showSidebar: Bool
+    @State var selectedBooks: [Book] = []
+    @State var showingBooks: String = "Library"
     var body: some View {
         let iPadOrientation = horizontalSizeClass != .compact
         GeometryReader { geometry in
             let isLandscape = geometry.size.width > geometry.size.height
             ZStack {
+                
+                // hidden sidebar behind view
+                    HStack {
+                        Spacer()
+                        LibrarySidebar(isPresenting: $showSidebar)
+                    }
+                        
+                        
+                
                 VStack {
                     
                     HStack {
@@ -464,14 +658,14 @@ struct LibraryView: View {
                             
                             MenuIcon()
                                 .foregroundColor(lightModeController.isDarkMode() ? Color(hex: "#FDFAEF") : lightModeController.getForegroundColor())
+                                .contentShape(Rectangle()) // Define the tappable shape
+                                .frame(width: 50, height: 50) // Make the tappable area larger
                                 .onTapGesture {
                                     caroView = false
                                     selectedTab = 0
                                     showSearch = false
                                     showLists = false
                                     showQuotes = false
-                                    
-                                    
                                 }
                             
                             Image(systemName: "text.quote")
@@ -490,7 +684,7 @@ struct LibraryView: View {
                             MenuIcon()
                                 .foregroundColor(lightModeController.isDarkMode() ? Color(hex: "#FDFAEF") : lightModeController.getForegroundColor())
                                 .onTapGesture {
-                                    
+                                    showSidebar.toggle()
                                 }
                         }
                         Image(systemName: "magnifyingglass")
@@ -574,7 +768,7 @@ struct LibraryView: View {
                             showLists.toggle()
                         }){
                             HStack {
-                                BodyText(text: "Library", size: 16, weight: 0.2)
+                                BodyText(text: showingBooks, size: 16, weight: 0.2)
                                     .foregroundColor(lightModeController.getForegroundColor())
                                 
                                 Image(systemName: "chevron.down")
@@ -647,7 +841,7 @@ struct LibraryView: View {
                                     CarouselView(longPress: $longPress, selectedBook: $selectedBook, showBook: $showBook, iPadOrientation: true)
                                         .padding(.horizontal, UIScreen.main.bounds.width * 0.05)
                                 } else if !isLandscape {
-                                    LibraryGrid(longPress: $longPress, selectedBook: $selectedBook, showBook: $showBook, iPadOrientation: true)
+                                    LibraryGrid(longPress: $longPress, selectedBook: $selectedBook, showBook: $showBook, iPadOrientation: true, books: $selectedBooks)
                                         .padding(.horizontal, iPadOrientation ? UIScreen.main.bounds.width * 0.05 : 0)
                                 } else {
                                     LandscapeLibraryGrid(showMedia: $selectedBook, longPress: $longPress, selectedBook: $selectedBook, showBook: $showBook, iPadOrientation: true)
@@ -661,14 +855,19 @@ struct LibraryView: View {
                     }
                     .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
                 }
-                .background(lightModeController.getBackgroundColor())
-                .sheet(isPresented: $showSearch) {
+                .background(lightModeController.getBackgroundColor().ignoresSafeArea().shadow(radius: 8))
+                /*.sheet(isPresented: $showSearch) {
                         SearchLibraryView(isPresenting: $showSearch)
                     
-                }
+                }*/
                 .sheet(isPresented: $showReviews) {
                     AllReviews(isPresenting: $showReviews, user: userData.user)
-                }/*
+                }
+                .offset(x: showSidebar ? -UIScreen.main.bounds.width * 0.82 : 0)
+                .animation(.easeInOut(duration: 0.3), value: showSidebar) // Smooth animation
+                
+
+                /*
                 .sheet(isPresented: $showLibrary) {
                     ScrollView {
                         HStack {
@@ -693,14 +892,28 @@ struct LibraryView: View {
                 
                 .sheet(isPresented: $showLists) {
                     ScrollView {
-                        AllLists(showList: $showList, selectedList: $selectedList, inProfile: true)
+                        ListAllLists(showList: $showList, selectedList: $selectedList)
+                    
+                        
                     }
                     .scrollIndicators(.hidden)
                     .presentationDetents([.fraction(0.8)])
+                    .presentationDragIndicator(.visible)   // Optional: Show a drag indicator
+
+                 .background(
+                                             RoundedCorners(tl: 50, tr: 50) // Adjust radius here
+                                            .fill(Color.white)
+                  )
 
                     
                 }
-
+                .onChange(of: selectedList){ newList in
+                    selectedBooks = selectedList.books
+                    showingBooks = selectedList.title
+                    showLists = false
+                    
+                    
+                }
                 .sheet(isPresented: $showMessages){
                     ConvosView()
 
@@ -740,6 +953,25 @@ struct LibraryView: View {
                     }
                     .padding(.bottom, 80)
                 }
+                if showSearch {
+                    
+                    LibrarySearchView(isPresenting: $showSearch)
+                    
+                }
+                if showSidebar {
+                    HStack {
+                        VStack{
+                            Spacer()
+                        }
+                        .frame(width: UIScreen.main.bounds.width * 0.82)
+                        .background(lightModeController.getBackgroundColor().opacity(0.001))
+                        .onTapGesture{
+                            showSidebar.toggle()
+                        }
+                        Spacer()
+                    }
+                }
+                
                 if create {
                     CreateView(create: $create)
                         .animation(.easeInOut)
@@ -802,6 +1034,7 @@ struct LibraryView: View {
             }
             .onAppear{
                 showToolbar = true
+                selectedBooks = userData.user.getAllBooks()
             }
             .sheet(isPresented: $showQueue) {
                 ToBeReadQueue()
@@ -832,6 +1065,29 @@ struct LibraryView: View {
 
 }
 
+struct RoundedCorners: Shape {
+    var tl: CGFloat = 0.0
+    var tr: CGFloat = 0.0
+    var bl: CGFloat = 0.0
+    var br: CGFloat = 0.0
+
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+
+        let width = rect.size.width
+        let height = rect.size.height
+
+        path.move(to: CGPoint(x: 0, y: height))
+        path.addLine(to: CGPoint(x: 0, y: tl))
+        path.addQuadCurve(to: CGPoint(x: tl, y: 0), control: CGPoint(x: 0, y: 0))
+        path.addLine(to: CGPoint(x: width - tr, y: 0))
+        path.addQuadCurve(to: CGPoint(x: width, y: tr), control: CGPoint(x: width, y: 0))
+        path.addLine(to: CGPoint(x: width, y: height))
+        path.closeSubpath()
+
+        return path
+    }
+}
 
 struct LandscapeLibraryGrid: View {
     @State private var showPopover = false
@@ -1275,15 +1531,16 @@ struct LibraryGrid: View {
     @EnvironmentObject var lightModeController: LightModeController
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
     @State var showBookIPad = false
+    @Binding var books: [Book]
     var body: some View {
         let iPadOrientation = horizontalSizeClass != .compact
 
         let columns = Array(repeating: GridItem(.flexible(), spacing: iPadOrientation ? 20 : 10, alignment: .top), count: 2)
         //GeometryReader { geometry in
-        let userBooks = userData.user.getAllBooks()
+        //let userBooks = userData.user.getAllBooks()
         ScrollView{
             LazyVGrid(columns: columns, spacing: iPadOrientation ? 40 : 25) {
-                ForEach(userBooks) { book in
+                ForEach(books) { book in
                     Button(action: {
                         selectedBook = book
                         showBook = true

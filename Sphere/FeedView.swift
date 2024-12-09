@@ -389,7 +389,7 @@ struct WritePostView: View {
                     }
                     
                     if showAuthor {
-                        AuthorView(author: $selectedAuthor, showToolbar: $showToolbar, isPresenting: $showAuthor)
+                        AuthorView(author: $selectedAuthor, isPresenting: $showAuthor)
                     }
                     
                     if createPost {

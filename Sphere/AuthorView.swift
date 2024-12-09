@@ -7,12 +7,38 @@
 
 import SwiftUI
 
+struct AuthorFollowButton: View {
+    @EnvironmentObject var lightModeController: LightModeController
+    var body: some View {
+       
+            Button(action: {
+
+            }){
+                HStack {
+                    BodyText(text: "Follow", size: 16, weight: 0.2)
+                        .foregroundColor(lightModeController.getForegroundColor())
+               
+                    
+                }
+                .padding(.horizontal, 16)
+                .padding(.vertical, 13)
+                .background(
+                    RoundedRectangle(cornerRadius: 40)
+                        .stroke(lightModeController.getForegroundColor().opacity(0.4), lineWidth: 0.6)
+                        .fill(lightModeController.isDarkMode() ? lightModeController.getForegroundColor().opacity(0.05) : Color(hex: "#fffffc").opacity(0.7))
+                    //.shadow(color: .black.opacity(0.2), radius: 2, x: 0, y: 1)
+                    
+                    
+                )
+            }
+           
+    }
+}
+
 struct AuthorView: View {
     @Binding var author : Author
-    @State var backgroundColor = Color(hex: "#FDFAEF")
     @State var isPresentingNotes = false
     @State var selectedBookNotes : Book = Book()
-    
     @State var create = false
     @EnvironmentObject var userData : UserData
     @State var showList = false
@@ -20,7 +46,6 @@ struct AuthorView: View {
     @State var showBook = false
     @State var selectedBook = Book()
     @State var showEReader = false
-    @Binding var showToolbar: Bool
     @EnvironmentObject var allBooks : Library
     
     @State var isLiked = false
@@ -41,41 +66,94 @@ struct AuthorView: View {
     @State var xoffset = 0.0
     @State var contentViewModel = ContentViewModel(book: Book())
     @State var showReader = false
-    
+    @EnvironmentObject var lightModeController: LightModeController
+
     var body: some View {
         ZStack {
+            VStack {
+                Image(author.photo)
+                    .resizable()
+                    .scaledToFill() // Ensures the image fills the space while maintaining aspect ratio
+
+                    .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.40)
+                    .clipped()
+                    
+
+                    .overlay(
+                      VStack() {
+                          HStack {
+                              Image(systemName: "chevron.left")
+                                  .onTapGesture {
+                                      isPresenting.toggle()
+                                  }
+                              Spacer()
+                          }
+                          .padding(.top, 20)
+                          
+                          Spacer()
+                          HStack {
+                              BookTitleText(text: author.name, size: 28, foregroundColor: .white)
+                                  .shadow(radius: 5)
+                              Spacer()
+                          }
+                      }
+                          .padding()
+                          .foregroundColor(.white)
+                    )
+                Spacer()
+            }
+            .ignoresSafeArea()
+
+
                 ScrollView {
-                    VStack {
                         
-                        VStack(alignment: .leading) {
-                            AuthorThumbnail(image: author.photo, size: 130)
-                                .padding(.top)
-                                .padding(.trailing, 3)
 
                         VStack {
                                  
                             VStack(alignment: .leading) {
-          
-                                    Text(author.name)
-                                          .font(.system(size: 16, weight: .medium))
-                                          .padding(.top, 2)
+                                HStack(alignment: .top) {
+                                    BodyText(text: "11.2M readers", size: 14.5, weight: 0.2)
+                                    Spacer()
+                                    AuthorFollowButton()
+                                }
+                                    .padding(.top, 5)
                                                     
-                                     Text(author.bio)
-                                           .font(.system(size: 15))
+                               /* BodyText(text: author.bio, size: 16.5)
                                            .lineLimit(7)
-                                           .lineSpacing(2.5)
-                                           .multilineTextAlignment(.leading)
                                            .padding(.vertical)
+                                */
+                                /*
+                                HStack {
+                                    VStack(alignment: .leading){
+                                        
+                                        BodyText(text: "You read", size: 16.5)
+                                        BodyText(text: "5 books", size: 14.5)
+                                    }
+                                    Spacer()
+
+                                }
+                                */
+                                VStack(alignment: .leading){
+                                    BodyText(text: "Top Rated", size: 20, weight: 0.3)
+                                        
+                                    ForEach(author.books) { book in
+                                    MiniBookPreview2(book: book, showBook: $showBook, selectedBook: $selectedBook)
+                                    }
+                                }
+                                .padding(.top)
+                                .padding(.top)
+
                                             
                                         }
                                        
-                                    }
-                                    .padding(.top)
+                                    
+                                    
 
                                 }
                                 .padding(.horizontal)
-                                .padding(.top, 40)
-                        
+                                .background(lightModeController.getBackgroundColor())
+                                //.padding(.top, 40)
+                        /*
                         VStack {
                             VStack {
                                 HStack{
@@ -111,7 +189,7 @@ struct AuthorView: View {
                                 if reviews.count > 2{
                                     ReviewPreview(review: reviews[2], showBook: $showBook, selectedBook: $selectedBook, showReview: $showReview, selectedReview: $selectedReview, showProfile: $showProfile, selectedProfile: $selectedProfile)
                                 }
-                                
+                             
                                 VStack {
                                     Divider()
                                         .padding(.horizontal)
@@ -146,7 +224,7 @@ struct AuthorView: View {
                                     
                                 }
                                 .padding(.vertical)
-                                
+                                 
                             }
                             
                             
@@ -156,17 +234,17 @@ struct AuthorView: View {
                         }
                         .padding(.bottom, 100)
                         .background(backgroundColor)
+                        */
                         
-   
-                    }
-                    .background(backgroundColor)
+                    
+                    .padding(.top, UIScreen.main.bounds.height * 0.35)
                     .sheet(isPresented: $isPresentingNotes) {
                         ActivityPreview(media: selectedBookNotes, isPresenting: $isPresentingNotes, showProfile: $showProfile, selectedProfile: $selectedProfile)
                             .presentationDetents([.fraction(0.95)])
                     }
                 }
             
-            .offset(x: xoffset)
+           /* .offset(x: xoffset)
             .gesture(
                 DragGesture()
                     .onChanged { gesture in
@@ -191,13 +269,11 @@ struct AuthorView: View {
                     }
             )
             .animation(.easeOut, value: xoffset) // Animate the return movement
-            
-            .background(backgroundColor)
-                .navigationBarHidden(true)
+            */
                 
                 
                 if showBook {
-                    ContentView(book: $selectedBook, isPresenting: $showBook, showToolbar: $showToolbar)
+                    ContentView(book: $selectedBook, isPresenting: $showBook, showToolbar: .constant(false))
                     
                 }
                 /*
@@ -224,13 +300,17 @@ struct AuthorView: View {
                         .ignoresSafeArea()
                         .opacity(0.2)
                     
-                    PostView(post: $selectedPost, isPresenting: $showPost, showToolbar: $showToolbar)
+                   // PostView(post: $selectedPost, isPresenting: $showPost, showToolbar: $showToolbar)
                 }
-                                
+                 
+            if showBook {
+                ContentView(book: $selectedBook, isPresenting: $showBook, showToolbar: .constant(true))
+            }
                 
             }
         
-        .background(backgroundColor)
+        .background(lightModeController.getBackgroundColor())
+        .foregroundColor(lightModeController.getForegroundColor())
 
             
         }

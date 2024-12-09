@@ -1158,7 +1158,7 @@ struct iPadContentView: View {
                 }
                 
                 if viewModel.showAuthor {
-                    AuthorView(author: $viewModel.book.author, showToolbar: $viewModel.showToolbar, isPresenting: $viewModel.showAuthor)
+                    AuthorView(author: $viewModel.book.author, isPresenting: $viewModel.showAuthor)
                 }
                 
                 if showAllNotes {

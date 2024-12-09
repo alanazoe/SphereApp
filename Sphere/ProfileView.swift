@@ -2441,7 +2441,6 @@ struct AllLists: View {
     @Binding var selectedList: List
     @EnvironmentObject var lightModeController: LightModeController
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
-    var inProfile: Bool = false
     var body: some View {
         let iPadOrientation = horizontalSizeClass != .compact
         let allLists = userData.user.getAllLists()
@@ -2449,10 +2448,7 @@ struct AllLists: View {
         ZStack {
             VStack {
                 HStack{
-                    if inProfile {
-                        BodyText(text: "Your Books", size: 20, weight: 0.1)
-                            .padding()
-                    } else {
+                   
                         VStack(alignment: .leading) {
                             Text("Lists")
                                 .font(.system(size: 18, weight: .medium))
@@ -2462,7 +2458,7 @@ struct AllLists: View {
                             
                             
                         }
-                    }
+                    
                     
                     Spacer()
                     
@@ -2538,6 +2534,106 @@ struct AllLists: View {
     }
 }
 
+
+struct ListAllLists: View {
+    @EnvironmentObject var userData: UserData
+    @Binding var showList: Bool
+    @Binding var selectedList: List
+    @EnvironmentObject var lightModeController: LightModeController
+    @Environment(\.horizontalSizeClass) var horizontalSizeClass
+    var inProfile: Bool = false
+    var body: some View {
+        let iPadOrientation = horizontalSizeClass != .compact
+        let allLists = userData.user.getAllLists()
+        
+        ZStack {
+            VStack {
+                /*HStack {
+                        BodyText(text: "Your Books", size: 20, weight: 0.1)
+                            .padding()
+                 
+                    
+                    Spacer()
+                    
+                }
+                */
+                LazyVStack(spacing: 14){
+                    InlineListPreview(list: List(title: "All Books", books: userData.user.getAllBooks()))
+                    Divider()
+
+                    ForEach(0..<allLists.count, id: \.self) { index in
+                        if allLists[index].books.count > 0 {
+                            InlineListPreview(list: allLists[index])
+                                .onTapGesture {
+                                    selectedList = allLists[index]
+                                    showList.toggle()
+                                }
+                            Divider()
+                        }
+                    }
+                }
+            }
+            .padding()
+            .padding(.top)
+            
+            
+        }
+        .background(lightModeController.getBackgroundColor())
+        .foregroundColor(lightModeController.getForegroundColor())
+        /*.sheet(isPresented: $showList){
+            AllListBooksGrid(isPresenting: $showList, list: $selectedList)
+                .presentationDetents([.fraction(0.9)])
+
+        }*/
+       /*
+        VStack(spacing: 15){
+            let allLists = userData.user.getAllLists()
+            
+            ForEach(0..<allLists.count, id: \.self) { index in
+                
+                if allLists[index].books.count > 0 {
+                    if showList && selectedList == allLists[index] {
+                        VStack{
+                            HStack {
+                                VStack(alignment: .leading) {
+                                    Text(allLists[index].title)
+                                        .font(.system(size: 16, weight: .medium))
+                                    //.opacity(0.7)
+                                    
+                                    Text("\(allLists[index].books.count) books")
+                                        .font(.system(size: 12))
+                                        .opacity(0.7)
+                                }
+                                Spacer()
+                                Text("see less")
+                                    .font(.system(size: 12))
+                                    .foregroundColor(Color(.blue).opacity(0.7))
+                                /*RoundedRectangle(cornerRadius: 2)
+                                 .frame(width: 28, height: 2)
+                                 .foregroundStyle(.black)*/
+                                
+                            }
+                            .background(lightModeController.getBackgroundColor())
+                            .padding(.horizontal)
+                            .frame(width: iPadOrientation ? calculateWidth(refWidth: 720) : UIScreen.main.bounds.width * 0.95)
+                            .onTapGesture{
+                                showList.toggle()
+                            }
+                            AllListBooksGrid(isPresenting: $showList, books: .constant(allLists[index].books))
+                        }
+                    } else{
+                        ProfileListPreview(list: allLists[index])
+                            .onTapGesture {
+                                selectedList = allLists[index]
+                                showList.toggle()
+                            }
+                    }
+                }
+            }
+            
+        }*/
+    }
+}
 struct RecommendedList: View {
     @EnvironmentObject var userData: UserData
     @State var showList: Bool = false
@@ -2758,6 +2854,158 @@ struct ProfileListPreview: View {
             .frame(width: iPadOrientation ? calculateWidth(refWidth: 720) : UIScreen.main.bounds.width * 0.46)
             .padding(.vertical)
             .padding(.vertical)
+        }
+    }
+
+struct InlineListPreview: View {
+    @State var list: List
+    @State var pinnedOnExplore = false
+    @Environment(\.horizontalSizeClass) var horizontalSizeClass
+    @EnvironmentObject var sphereUsers: SphereUsers
+
+    var body: some View {
+        let iPadOrientation = horizontalSizeClass != .compact
+            
+            HStack() {
+                
+                ZStack{
+                    
+                    if list.books.count == 1 {
+                        HStack {
+                            
+                            RoundedRectangle(cornerRadius: 4)
+                                .frame(width: (UIScreen.main.bounds.width * 0.42) / 3, height: iPadOrientation ? 185 : pinnedOnExplore ? 100 : 120)
+                                .padding(5)
+                                .foregroundColor(Color(hex: "#291F00").opacity(0.1))
+                                .background(
+                                    RoundedRectangle(cornerRadius: 4)
+                                        .foregroundColor(.white)
+                                )
+                            Spacer()
+                            
+                        }
+                        .frame(width: UIScreen.main.bounds.width * 0.42)
+                        HStack {
+                            Spacer()
+
+                            RoundedRectangle(cornerRadius: 4)
+                                .frame(width: (UIScreen.main.bounds.width * 0.42) / 3, height: iPadOrientation ? 185 : pinnedOnExplore ? 100 : 120)
+                                .padding(5)
+                                .foregroundColor(Color(hex: "#291F00").opacity(0.1))
+                                .background(
+                                    RoundedRectangle(cornerRadius: 4)
+                                        .foregroundColor(.white)
+                                )
+                            Spacer()
+                            
+                        }
+                        .frame(width: UIScreen.main.bounds.width * 0.42)
+
+                    } else if  list.books.count == 2 {
+                        HStack {
+                            
+                            RoundedRectangle(cornerRadius: 4)
+                                .frame(width: (UIScreen.main.bounds.width * 0.42) / 3, height: iPadOrientation ? 185 : pinnedOnExplore ? 100 : 120)
+                                .padding(5)
+                                .foregroundColor(Color(hex: "#291F00").opacity(0.05))
+                                .background(
+                                    RoundedRectangle(cornerRadius: 4)
+                                        .foregroundColor(.white)
+                                )
+                            Spacer()
+                            
+                        }
+                        .frame(width: UIScreen.main.bounds.width * 0.42)
+                    }
+                    let count = list.books.count
+                    ForEach(0..<min(iPadOrientation ? 5 : 3, list.books.count), id: \.self) { index in
+                        HStack {
+                            if count == 1 || count == 2 || index == 1 || index == 2 {
+                                Spacer()
+                            }
+                            
+                            Image(list.books[index].cover)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: 55)
+                                .cornerRadius(4)
+                                .padding(2)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 4)
+                                        .foregroundColor(.white)
+                                )
+                                
+                            
+                            if count != 1 && (index == 0 || (count != 2 && index == 1) || (count == 2 && index != 1)) {
+                                Spacer()
+                            }
+                            
+                        }
+                        .frame(width: 75)
+
+                         
+                        
+                    }
+                    
+                    
+                }
+                //.frame(width: UIScreen.main.bounds.width * 0.46)
+
+                HStack {
+                    if let user = sphereUsers.getUserById(userId: list.user){
+                        
+                        
+                        if user.isTBRList(list: list){
+                            VStack(alignment: .leading) {
+                                StatusView(status: .tbr, fontSize: 16)
+                                    .padding(.leading, -7)
+                                Text("\(list.books.count) books")
+                                    .font(.system(size: 12, weight: .medium))
+                                    .opacity(0.7)
+
+                    
+                            }
+                        } else if user.isReadList(list: list){
+                            VStack(alignment: .leading) {
+                                StatusView(status: .read, fontSize: 16)
+                                    .padding(.leading, -7)
+
+                                Text("\(list.books.count) books")
+                                    .font(.system(size: 12, weight: .medium))
+                                    .opacity(0.7)
+
+                            }
+
+                        } else if user.isReadingList(list: list){
+                            VStack(alignment: .leading) {
+                                StatusView(status: .current, fontSize: 16)
+                                    .padding(.leading, -7)
+
+                                Text("\(list.books.count) books")
+                                    .font(.system(size: 12, weight: .medium))
+                                    .opacity(0.7)
+                            }
+
+                        } else {
+                            VStack(alignment: .leading) {
+                                Text(list.title)
+                                    .font(.system(size: 16, weight: .medium))
+
+                                //.opacity(0.7)
+                                Text("\(list.books.count) books")
+                                    .font(.system(size: 12, weight: .medium))
+                                    .opacity(pinnedOnExplore ? 0.0 : 0.7)
+                                
+                            }
+                        }
+                    }
+                    Spacer()
+                   
+                }
+                .padding(.horizontal, 6)
+                Spacer()
+            }
+     
         }
     }
 
@@ -4838,11 +5086,12 @@ struct Note: View {
 struct ReadingChallenge: View {
     @EnvironmentObject var userData: UserData
     @State var goal : Int = 20
-    @State var width = 110.0
+    @EnvironmentObject var lightModeController: LightModeController
     var body: some View {
         VStack(alignment: .leading) {
             var currentlyRead = userData.user.pastReads.books.count
          
+            GeometryReader { geo in
             VStack(alignment: .leading){
             
                 HStack {
@@ -4852,19 +5101,22 @@ struct ReadingChallenge: View {
                         .overlay(*/
                             VStack(alignment: .leading){
                                 ZStack(alignment: .leading){
-                                    RoundedRectangle(cornerRadius: 5)
-                                        .frame(width: width * 0.8, height: 15)
-                                        .foregroundColor(Color(hex: "#291F00").opacity(0.08))
-                                    RoundedRectangle(cornerRadius: 5)
-                                        .frame(width: CGFloat(width * 0.8 * Double(currentlyRead)) / CGFloat(goal), height: 15)
-                                        .foregroundColor(.blue.opacity(0.3))
+                                    RoundedRectangle(cornerRadius: 9)
+                                        .stroke(lightModeController.getForegroundColor().opacity(0.4), lineWidth: 0.6)
+                                        .fill(lightModeController.isDarkMode() ? lightModeController.getForegroundColor().opacity(0.05) : Color(hex: "#fffffc").opacity(0.7))
+                                        .frame(height: 35)
+                                    RoundedRectangle(cornerRadius: 9)
+                                        .stroke(lightModeController.getForegroundColor().opacity(0.4), lineWidth: 0.6)
+                                        .fill(.blue.opacity(0.3))
+                                        .frame(width: CGFloat(geo.size.width * 0.8 * Double(currentlyRead)) / CGFloat(goal), height: 35)
+                                       
                                 }
 
-                                .padding(.bottom, 2)
+                                //.padding(.bottom, 2)
                                 
                             
-                                    Text("\(currentlyRead) / \(goal) books")
-                                        .font(.system(size: 12))
+                                    /*Text("\(currentlyRead) / \(goal) books")
+                                        .font(.system(size: 14))*/
 
                                 
 
@@ -4872,9 +5124,12 @@ struct ReadingChallenge: View {
                         //)
 
                 }
+                .padding(.horizontal, 2)
                 
             }
             
+            }
+            .frame(height: 40)
         }
     }
 }
